@@ -14,8 +14,7 @@ import TrustBar from "@/components/TrustBar"
 import { serviceIllustrationMap } from "@/components/illustrations/ServiceIllustrations"
 import { Service } from "@/data/services"
 import { cities } from "@/data/cities"
-
-const PHONE = "(800) 555-5865"
+import { PHONE } from "@/lib/constants"
 
 interface ServicePageTemplateProps {
   service: Service
