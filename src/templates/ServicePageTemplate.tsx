@@ -11,6 +11,7 @@ import HowItWorks from "@/components/HowItWorks"
 import TestimonialsSection from "@/components/TestimonialsSection"
 import FaqSection from "@/components/FaqSection"
 import TrustBar from "@/components/TrustBar"
+import { serviceIllustrationMap } from "@/components/illustrations/ServiceIllustrations"
 import { Service } from "@/data/services"
 import { cities } from "@/data/cities"
 
@@ -21,6 +22,8 @@ interface ServicePageTemplateProps {
 }
 
 export default function ServicePageTemplate({ service }: ServicePageTemplateProps) {
+  const Illustration = serviceIllustrationMap[service.slug]
+
   return (
     <>
       {/* Hero */}
@@ -29,7 +32,14 @@ export default function ServicePageTemplate({ service }: ServicePageTemplateProp
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="text-5xl mb-5">{service.icon}</div>
+              {Illustration ? (
+                <div className="mb-5 flex items-center gap-4">
+                  <Illustration width={80} height={80} className="rounded-xl" />
+                  <span className="text-5xl">{service.icon}</span>
+                </div>
+              ) : (
+                <div className="text-5xl mb-5">{service.icon}</div>
+              )}
               <div className="inline-flex items-center gap-2 bg-green-700/40 text-green-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
                 ⚡ Same-Day Pickups Available
               </div>

@@ -12,6 +12,7 @@ import TestimonialsSection from "@/components/TestimonialsSection"
 import FaqSection from "@/components/FaqSection"
 import ServiceCard from "@/components/ServiceCard"
 import TrustBar from "@/components/TrustBar"
+import { CityIllustration } from "@/components/illustrations/ServiceIllustrations"
 import { City } from "@/data/cities"
 import { services } from "@/data/services"
 
@@ -56,6 +57,9 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
+              <div className="mb-5">
+                <CityIllustration width={320} height={160} className="rounded-xl opacity-80" />
+              </div>
               <div className="inline-flex items-center gap-2 bg-green-700/40 text-green-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
                 ⚡ Same-Day Available in {city.name}
               </div>

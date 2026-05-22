@@ -11,6 +11,7 @@ import HowItWorks from "@/components/HowItWorks"
 import TestimonialsSection from "@/components/TestimonialsSection"
 import ServiceCard from "@/components/ServiceCard"
 import TrustBar from "@/components/TrustBar"
+import { HeroIllustration } from "@/components/illustrations/ServiceIllustrations"
 import { services } from "@/data/services"
 import { cities } from "@/data/cities"
 import { PHONE } from "@/lib/constants"
@@ -77,8 +78,11 @@ export default function HomepageTemplate() {
                 <span>♻️ Eco-Friendly</span>
               </div>
             </div>
-            {/* Lead form */}
+            {/* Lead form with hero illustration above */}
             <div id="quote">
+              <div className="mb-6 flex justify-center">
+                <HeroIllustration width={380} height={200} className="rounded-2xl opacity-90" />
+              </div>
               <LeadForm />
             </div>
           </div>
