@@ -19,20 +19,11 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     locale: "en_US",
-    images: [
-      {
-        url: `${SITE_URL}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: `${SITE_NAME} — Junk Removal in Miami & Broward County`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} — Fast, Affordable, Eco-Friendly`,
     description: SITE_DESCRIPTION,
-    images: [`${SITE_URL}/og-image.png`],
   },
   alternates: {
     canonical: SITE_URL,
