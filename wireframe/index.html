@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero Image Concepts — 4 Ideas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; }
+
+    /* ── TOP BAR ─────────────────────────────────────────────── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: #1e293b; border-bottom: 1px solid #334155;
+      display: flex; align-items: center; gap: 0; padding: 0 20px;
+      height: 52px;
+    }
+    .topbar-label { color: #64748b; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-right: 16px; }
+    .tab {
+      padding: 0 20px; height: 52px; display: flex; align-items: center;
+      font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer;
+      border-bottom: 2px solid transparent; transition: all .15s; white-space: nowrap;
+      background: none; border-left: none; border-right: none; border-top: none;
+    }
+    .tab.active { color: #4ade80; border-bottom-color: #4ade80; }
+    .tab:hover:not(.active) { color: #cbd5e1; }
+    .device-toggle {
+      margin-left: auto; display: flex; gap: 4px;
+      background: #0f172a; border-radius: 8px; padding: 4px;
+    }
+    .dev-btn {
+      padding: 5px 14px; border-radius: 6px; border: none; cursor: pointer;
+      font-size: 12px; font-weight: 700; transition: all .15s;
+    }
+    .dev-btn.active { background: #334155; color: white; }
+    .dev-btn:not(.active) { background: none; color: #64748b; }
+
+    /* ── PANELS ──────────────────────────────────────────────── */
+    .stage { padding-top: 52px; display: flex; justify-content: center; min-height: 100vh; background: #0f172a; }
+    .panel { display: none; width: 100%; }
+    .panel.active { display: block; }
+
+    /* desktop wrapper */
+    .desktop-wrap { width: 100%; }
+    /* mobile wrapper */
+    .mobile-wrap {
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: 32px 20px; min-height: calc(100vh - 52px);
+    }
+    .phone-frame {
+      width: 390px; background: white; border-radius: 40px;
+      overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.6),
+      inset 0 0 0 2px #334155; min-height: 844px;
+    }
+
+    /* ── SHARED COMPONENTS ───────────────────────────────────── */
+    nav {
+      background: white; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 32px; height: 60px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    nav.dark { background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .nav-logo { font-weight: 800; color: #16a34a; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+    .nav-logo.white { color: white; }
+    .nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 500; color: #374151; }
+    .nav-links.white { color: rgba(255,255,255,0.8); }
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+    .nav-phone { font-weight: 700; color: #16a34a; font-size: 13px; }
+    .nav-phone.white { color: white; }
+    .btn-green { background: #16a34a; color: white; padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; border: none; cursor: pointer; }
+    .trust-bar { background: #16a34a; color: white; display: flex; align-items: center; justify-content: center; gap: 28px; padding: 9px 24px; font-size: 12px; font-weight: 600; flex-wrap: wrap; }
+
+    /* form card */
+    .form-card { background: white; border-radius: 20px; padding: 28px 24px 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.35); }
+    .form-card .fc-title { font-size: 20px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .form-card .fc-sub { font-size: 12px; color: #6b7280; margin-bottom: 18px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .form-grid.one-col { grid-template-columns: 1fr; }
+    .ff { display: flex; flex-direction: column; gap: 4px; }
+    .ff label { font-size: 11px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; }
+    .ff input, .ff select { border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; font-size: 13px; color: #111827; font-family: inherit; outline: none; }
+    .ff.full { grid-column: 1 / -1; }
+    .proof-strip { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 9px; }
+    .proof-avatar { width: 32px; height: 32px; border-radius: 50%; background: #16a34a; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 12px; flex-shrink: 0; }
+    .proof-body { font-size: 11px; color: #166534; line-height: 1.5; }
+    .proof-name { font-weight: 700; color: #15803d; font-size: 10px; margin-top: 2px; }
+    .btn-submit { width: 100%; background: #16a34a; color: white; font-weight: 800; font-size: 15px; padding: 15px; border-radius: 10px; border: none; cursor: pointer; }
+    .form-note { font-size: 11px; color: #9ca3af; text-align: center; margin-top: 8px; }
+
+    /* photo placeholder */
+    .photo { background: linear-gradient(135deg, #1c3a2a 0%, #0f2318 50%, #1a3a25 100%); position: relative; overflow: hidden; }
+    .photo::after { content: '📸  HERO PHOTO HERE'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.25); font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+    .photo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.52); }
+    /* overlay visual noise */
+    .photo::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(22,163,74,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(22,163,74,0.1) 0%, transparent 50%); }
+
+    /* mobile nav */
+    .m-nav { background: white; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 56px; border-bottom: 1px solid #f1f5f9; }
+    .m-nav.dark-nav { background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+    .m-logo { font-weight: 800; font-size: 14px; color: #16a34a; }
+    .m-logo.white { color: white; }
+    .m-trust { background: #16a34a; color: white; font-size: 11px; font-weight: 600; padding: 8px 16px; text-align: center; }
+    .m-cta-btn { background: #16a34a; color: white; font-size: 13px; font-weight: 700; padding: 7px 14px; border-radius: 8px; border: none; }
+
+    /* concept label badge */
+    .concept-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1e293b; border: 1px solid #334155;
+      color: #94a3b8; font-size: 12px; font-weight: 700;
+      padding: 6px 16px; border-radius: 100px; margin: 16px 0 8px 32px;
+    }
+    .concept-label span { color: #4ade80; }
+
+    /* ── CONCEPT 1: Full-bleed bg image ─────────────────────── */
+    #c1 .hero {
+      position: relative; min-height: 620px;
+      display: grid; grid-template-columns: 1fr 460px; gap: 48px;
+      align-items: center; padding: 60px 60px 70px;
+    }
+    #c1 .hero .photo { position: absolute; inset: 0; }
+    #c1 .hero .photo::after { font-size: 18px; }
+    #c1 .left { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 20px; }
+    #c1 .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(22,163,74,0.2); border: 1px solid rgba(74,222,128,0.4); border-radius: 100px; padding: 6px 16px; width: fit-content; color: #4ade80; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    #c1 h1 { font-size: 64px; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; }
+    #c1 h1 em { color: #4ade80; font-style: normal; display: block; }
+    #c1 .sub { color: rgba(255,255,255,0.75); font-size: 18px; line-height: 1.6; max-width: 480px; }
+    #c1 .stars { display: flex; align-items: center; gap: 8px; color: #fbbf24; font-size: 15px; }
+    #c1 .stars span { color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600; }
+    #c1 .btn-main { background: #16a34a; color: white; font-weight: 800; font-size: 16px; padding: 16px 32px; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 24px rgba(22,163,74,0.5); width: fit-content; }
+    #c1 .btn-phone { background: rgba(255,255,255,0.12); color: white; font-weight: 700; font-size: 14px; padding: 16px 24px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; width: fit-content; backdrop-filter: blur(4px); }
+    #c1 .ctas { display: flex; gap: 12px; }
+    #c1 .right { position: relative; z-index: 2; }
+
+    /* mobile c1 */
+    #c1 .m-hero { position: relative; min-height: 260px; }
+    #c1 .m-photo { position: absolute; inset: 0; }
+    #c1 .m-photo::after { font-size: 12px; }
+    #c1 .m-content { position: relative; z-index: 2; padding: 56px 20px 28px; }
+    #c1 .m-eyebrow { color: #4ade80; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; }
+    #c1 .m-h1 { font-size: 42px; font-weight: 900; color: white; line-height: 1; letter-spacing: -1.5px; margin-bottom: 10px; }
+    #c1 .m-h1 em { color: #4ade80; font-style: normal; display: block; }
+    #c1 .m-sub { color: rgba(255,255,255,0.75); font-size: 14px; line-height: 1.5; margin-bottom: 18px; }
+    #c1 .m-stars { color: #fbbf24; font-size: 13px; margin-bottom: 18px; display: flex; align-items: center; gap: 6px; }
+    #c1 .m-stars span { color: rgba(255,255,255,0.6); font-size: 12px; }
+    #c1 .m-btns { display: flex; flex-direction: column; gap: 10px; }
+    #c1 .m-btn-main { background: #16a34a; color: white; font-weight: 800; font-size: 15px; padding: 14px; border-radius: 10px; border: none; text-align: center; }
+    #c1 .m-btn-phone { background: rgba(255,255,255,0.15); color: white; font-weight: 700; font-size: 14px; padding: 13px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); text-align: center; }
+    #c1 .m-form-wrap { background: #f9fafb; padding: 20px; }
+
+    /* ── CONCEPT 2: Split-screen ─────────────────────────────── */
+    #c2 .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 640px; }
+    #c2 .left { position: relative; }
+    #c2 .left .photo { position: absolute; inset: 0; }
+    #c2 .left .photo::after { font-size: 16px; }
+    #c2 .left-content { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 60px 48px; gap: 20px; min-height: 640px; }
+    #c2 .eyebrow { display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    #c2 .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; }
+    #c2 h1 { font-size: 58px; font-weight: 900; color: white; line-height: 1.02; letter-spacing: -2px; }
+    #c2 h1 em { color: #4ade80; font-style: normal; display: block; }
+    #c2 .sub { color: rgba(255,255,255,0.7); font-size: 17px; line-height: 1.6; }
+    #c2 .stars { color: #fbbf24; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+    #c2 .stars span { color: rgba(255,255,255,0.65); font-size: 13px; }
+    #c2 .pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    #c2 .pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; padding: 5px 12px; color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 600; }
+    #c2 .right { background: white; display: flex; flex-direction: column; justify-content: center; padding: 52px 48px; }
+    #c2 .right-title { font-size: 22px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    #c2 .right-sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+
+    /* mobile c2 */
+    #c2 .m-photo-top { height: 220px; position: relative; }
+    #c2 .m-photo-top .photo { position: absolute; inset: 0; }
+    #c2 .m-photo-top .photo::after { font-size: 11px; }
+    #c2 .m-overlay-text { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px 20px; }
+    #c2 .m-eyebrow { color: #4ade80; font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+    #c2 .m-h1 { font-size: 34px; font-weight: 900; color: white; line-height: 1.05; letter-spacing: -1px; }
+    #c2 .m-h1 em { color: #4ade80; font-style: normal; }
+    #c2 .m-form-section { background: white; padding: 20px; }
+    #c2 .m-title { font-size: 18px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    #c2 .m-sub-text { font-size: 12px; color: #6b7280; margin-bottom: 16px; }
+
+    /* ── CONCEPT 3: Cinematic header strip ───────────────────── */
+    #c3 .photo-strip { height: 380px; position: relative; }
+    #c3 .photo-strip .photo { position: absolute; inset: 0; }
+    #c3 .photo-strip .photo::after { font-size: 18px; }
+    #c3 .strip-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%); z-index: 1; }
+    #c3 .strip-content { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 0 60px 40px; }
+    #c3 .eyebrow { display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 12px; }
+    #c3 .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; }
+    #c3 h1 { font-size: 70px; font-weight: 900; color: white; line-height: 1; letter-spacing: -2.5px; }
+    #c3 h1 em { color: #4ade80; font-style: normal; }
+    #c3 .stars { color: #fbbf24; font-size: 15px; margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    #c3 .stars span { color: rgba(255,255,255,0.7); font-size: 13px; }
+    /* below-fold section */
+    #c3 .below { background: white; padding: 48px 60px; }
+    #c3 .below-grid { display: grid; grid-template-columns: 1fr 440px; gap: 60px; align-items: start; }
+    #c3 .left-copy { display: flex; flex-direction: column; gap: 16px; }
+    #c3 .sub { font-size: 18px; color: #374151; line-height: 1.7; }
+    #c3 .ctas { display: flex; gap: 12px; margin-top: 4px; }
+    #c3 .btn-main { background: #16a34a; color: white; font-weight: 800; font-size: 15px; padding: 15px 28px; border-radius: 10px; border: none; cursor: pointer; }
+    #c3 .btn-phone { background: #f3f4f6; color: #111827; font-weight: 700; font-size: 14px; padding: 15px 24px; border-radius: 10px; border: none; cursor: pointer; }
+    #c3 .pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    #c3 .pill { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 100px; padding: 6px 14px; color: #166534; font-size: 12px; font-weight: 600; }
+
+    /* mobile c3 */
+    #c3 .m-photo { height: 240px; position: relative; }
+    #c3 .m-photo .photo { position: absolute; inset: 0; }
+    #c3 .m-photo .photo::after { font-size: 11px; }
+    #c3 .m-strip-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.75) 100%); z-index: 1; }
+    #c3 .m-strip-content { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 0 20px 20px; }
+    #c3 .m-eyebrow { color: #4ade80; font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+    #c3 .m-h1 { font-size: 38px; font-weight: 900; color: white; line-height: 1; letter-spacing: -1.5px; }
+    #c3 .m-h1 em { color: #4ade80; font-style: normal; }
+    #c3 .m-below { background: white; padding: 20px; }
+    #c3 .m-sub { font-size: 14px; color: #374151; line-height: 1.6; margin-bottom: 16px; }
+    #c3 .m-stars { color: #fbbf24; font-size: 13px; display: flex; align-items: center; gap: 6px; color: #fbbf24; margin-bottom: 16px; }
+    #c3 .m-stars span { color: #6b7280; font-size: 12px; }
+    #c3 .m-ctas { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    #c3 .m-btn-main { background: #16a34a; color: white; font-weight: 800; font-size: 15px; padding: 14px; border-radius: 10px; border: none; text-align: center; }
+    #c3 .m-btn-phone { background: #f3f4f6; color: #111827; font-weight: 700; font-size: 14px; padding: 13px; border-radius: 10px; border: none; text-align: center; }
+
+    /* ── CONCEPT 4: Image inside form card ───────────────────── */
+    #c4 .hero {
+      background: linear-gradient(135deg, #111827 0%, #14532d 100%);
+      display: grid; grid-template-columns: 1fr 480px; gap: 56px;
+      align-items: center; padding: 56px 60px 64px; min-height: 620px;
+    }
+    #c4 .left { display: flex; flex-direction: column; gap: 20px; }
+    #c4 .eyebrow { display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    #c4 .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; }
+    #c4 h1 { font-size: 64px; font-weight: 900; color: white; line-height: 1; letter-spacing: -2.5px; }
+    #c4 h1 em { color: #4ade80; font-style: normal; display: block; }
+    #c4 .sub { color: #9ca3af; font-size: 18px; line-height: 1.6; max-width: 440px; }
+    #c4 .stars { display: flex; align-items: center; gap: 8px; color: #fbbf24; font-size: 15px; }
+    #c4 .stars span { color: rgba(255,255,255,0.65); font-size: 13px; }
+    #c4 .pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    #c4 .pill { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 100px; padding: 6px 14px; color: #d1d5db; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    #c4 .pill-dot { width: 5px; height: 5px; border-radius: 50%; background: #4ade80; }
+    #c4 .btn-phone { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+    /* card with image header */
+    #c4 .rich-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.4); }
+    #c4 .card-photo { height: 160px; position: relative; }
+    #c4 .card-photo .photo { position: absolute; inset: 0; border-radius: 0; }
+    #c4 .card-photo .photo::after { font-size: 12px; color: rgba(255,255,255,0.4); }
+    #c4 .card-photo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 1; display: flex; align-items: center; justify-content: center; gap: 20px; }
+    #c4 .stat { display: flex; flex-direction: column; align-items: center; color: white; }
+    #c4 .stat-num { font-size: 28px; font-weight: 900; }
+    #c4 .stat-label { font-size: 10px; font-weight: 600; opacity: 0.8; letter-spacing: 0.5px; }
+    #c4 .stat-div { width: 1px; height: 40px; background: rgba(255,255,255,0.3); }
+    #c4 .card-body { padding: 24px 24px 20px; }
+    #c4 .card-title { font-size: 20px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    #c4 .card-sub { font-size: 12px; color: #6b7280; margin-bottom: 18px; }
+
+    /* mobile c4 */
+    #c4 .m-hero-bg { background: linear-gradient(135deg, #111827 0%, #14532d 100%); padding: 56px 20px 24px; position: relative; }
+    #c4 .m-eyebrow { color: #4ade80; font-size: 11px; font-weight: 700; margin-bottom: 10px; }
+    #c4 .m-h1 { font-size: 42px; font-weight: 900; color: white; line-height: 1; letter-spacing: -1.5px; margin-bottom: 12px; }
+    #c4 .m-h1 em { color: #4ade80; font-style: normal; display: block; }
+    #c4 .m-stars { color: #fbbf24; font-size: 13px; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    #c4 .m-stars span { color: rgba(255,255,255,0.65); font-size: 11px; }
+    #c4 .m-card-outer { padding: 0 16px; margin-top: -20px; position: relative; z-index: 2; }
+    #c4 .m-rich-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+    #c4 .m-card-photo { height: 120px; position: relative; }
+    #c4 .m-card-photo .photo { position: absolute; inset: 0; }
+    #c4 .m-card-photo .photo::after { font-size: 10px; color: rgba(255,255,255,0.4); }
+    #c4 .m-card-photo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 1; display: flex; align-items: center; justify-content: center; gap: 16px; }
+    #c4 .m-stat { display: flex; flex-direction: column; align-items: center; color: white; }
+    #c4 .m-stat-num { font-size: 22px; font-weight: 900; }
+    #c4 .m-stat-label { font-size: 9px; font-weight: 600; opacity: 0.8; }
+    #c4 .m-stat-div { width: 1px; height: 30px; background: rgba(255,255,255,0.3); }
+    #c4 .m-card-body { padding: 18px 18px 16px; }
+    #c4 .m-card-title { font-size: 17px; font-weight: 800; color: #111827; margin-bottom: 3px; }
+    #c4 .m-card-sub { font-size: 11px; color: #6b7280; margin-bottom: 14px; }
+    #c4 .m-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; padding: 0 20px 20px; }
+    #c4 .m-pill { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; padding: 5px 12px; color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 600; }
+
+    /* annotations */
+    .anno-bar { background: #1e293b; border-top: 1px solid #334155; padding: 24px 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .anno-bar.two { grid-template-columns: repeat(2, 1fr); }
+    .anno { display: flex; flex-direction: column; gap: 6px; }
+    .anno-tag { width: fit-content; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+    .tag-green { background: #14532d; color: #4ade80; }
+    .tag-blue { background: #1e3a5f; color: #60a5fa; }
+    .anno-title { font-size: 13px; font-weight: 700; color: #e2e8f0; }
+    .anno-desc { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+    /* device visibility */
+    .desktop-only { display: block; }
+    .mobile-only { display: none; }
+    body.mobile-view .desktop-only { display: none; }
+    body.mobile-view .mobile-only { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-label">CONCEPT</span>
+  <button class="tab active" onclick="showConcept('c1',this)">1 · Full-Bleed BG</button>
+  <button class="tab" onclick="showConcept('c2',this)">2 · Split Screen</button>
+  <button class="tab" onclick="showConcept('c3',this)">3 · Cinematic Strip</button>
+  <button class="tab" onclick="showConcept('c4',this)">4 · Image in Card</button>
+  <div class="device-toggle">
+    <button class="dev-btn active" onclick="setDevice('desktop',this)">🖥 Desktop</button>
+    <button class="dev-btn" onclick="setDevice('mobile',this)">📱 Mobile</button>
+  </div>
+</div>
+
+<div class="stage">
+
+  <!-- ═══════════════════════════════════════════════════
+       CONCEPT 1: Full-bleed background image
+  ════════════════════════════════════════════════════════ -->
+  <div id="c1" class="panel active" style="width:100%">
+
+    <!-- DESKTOP -->
+    <div class="desktop-only">
+      <div class="concept-label">Concept 1 — <span>Full-Bleed Background</span> · Photo fills entire hero, dark overlay, form floats on top</div>
+      <nav class="dark">
+        <div class="nav-logo white">♻ JunkRemovalServiceUSA</div>
+        <div class="nav-links white"><span>Services ▾</span><span>Pricing</span><span>About</span></div>
+        <div class="nav-cta"><span class="nav-phone white">(855) 885-5865</span><button class="btn-green">Free Quote</button></div>
+      </nav>
+      <div class="hero" style="position:relative">
+        <div class="photo" style="position:absolute;inset:0"></div>
+        <div class="photo-overlay"></div>
+        <div class="left">
+          <div class="eyebrow">⚡ SAME-DAY · MIAMI &amp; BROWARD</div>
+          <h1>Junk Gone.<em>Today.</em></h1>
+          <p class="sub">Fast, upfront-priced junk removal across South Florida. We do all the heavy lifting — you just point at the pile.</p>
+          <div class="stars">★★★★★ <span>4.9 · 500+ reviews</span></div>
+          <div class="ctas">
+            <button class="btn-main">Get Free Quote →</button>
+            <button class="btn-phone">📞 (855) 885-5865</button>
+          </div>
+        </div>
+        <div class="right">
+          <div class="form-card">
+            <div class="fc-title">Get Your Free Quote</div>
+            <div class="fc-sub">We respond within 15 minutes — no obligation.</div>
+            <div class="form-grid">
+              <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+              <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+              <div class="ff full"><label>City or Zip</label><input placeholder="Miami, Coral Gables, 33101..." /></div>
+              <div class="ff full"><label>Service Needed</label><select><option>Select a service...</option><option>Furniture Removal</option><option>Garage Cleanout</option><option>Estate Cleanout</option><option>Other</option></select></div>
+            </div>
+            <div class="proof-strip">
+              <div class="proof-avatar">M</div>
+              <div><div class="proof-body">"Showed up in 2 hours. Cleared our whole garage. Price was exactly what they quoted."</div><div class="proof-name">★★★★★ Maria R. — Miami, FL</div></div>
+            </div>
+            <button class="btn-submit">Get My Free Quote →</button>
+            <div class="form-note">No spam · No obligation · We call within 15 min</div>
+          </div>
+        </div>
+      </div>
+      <div class="anno-bar">
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Maximum visual impact</div><div class="anno-desc">Photo fills the entire hero — the most cinematic and emotional of the 4 concepts. Great for first impressions.</div></div>
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Form always visible</div><div class="anno-desc">The form card floats above the image and is immediately visible without scrolling. No steps required to convert.</div></div>
+        <div class="anno"><span class="anno-tag tag-blue">CONSIDERATION</span><div class="anno-title">Photo quality matters most here</div><div class="anno-desc">Needs a strong, well-lit photo of crew + truck. A bad photo here hurts more than in other concepts.</div></div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="mobile-only">
+      <div class="mobile-wrap">
+        <div class="phone-frame">
+          <div class="m-trust">✅ Licensed &amp; Insured &nbsp;·&nbsp; ⚡ Same-Day &nbsp;·&nbsp; ⭐ 500+ Reviews</div>
+          <div class="m-hero" style="position:relative">
+            <div class="m-photo photo" style="position:absolute;inset:0;min-height:380px"></div>
+            <div class="photo-overlay"></div>
+            <div class="m-nav dark-nav">
+              <div class="m-logo white">♻ JRSUSA</div>
+              <button class="m-cta-btn">Free Quote</button>
+            </div>
+            <div class="m-content" style="min-height:380px">
+              <div class="m-eyebrow">⚡ SAME-DAY · MIAMI &amp; BROWARD</div>
+              <div class="m-h1">Junk Gone.<em>Today.</em></div>
+              <p class="m-sub">Fast, upfront-priced junk removal across South Florida.</p>
+              <div class="m-stars">★★★★★ <span>4.9 · 500+ reviews</span></div>
+              <div class="m-btns">
+                <div class="m-btn-main">Get Free Quote →</div>
+                <div class="m-btn-phone">📞 (855) 885-5865</div>
+              </div>
+            </div>
+          </div>
+          <div class="m-form-wrap">
+            <div class="form-card" style="border-radius:12px;padding:20px 16px 16px">
+              <div class="fc-title" style="font-size:17px">Get Your Free Quote</div>
+              <div class="fc-sub">We respond within 15 minutes.</div>
+              <div class="form-grid one-col">
+                <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+                <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+                <div class="ff"><label>City or Zip</label><input placeholder="Miami, 33101..." /></div>
+                <div class="ff"><label>Service</label><select><option>Select a service...</option></select></div>
+              </div>
+              <button class="btn-submit" style="margin-top:12px;font-size:14px;padding:13px">Get My Free Quote →</button>
+              <div class="form-note">No spam · No obligation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONCEPT 2: Split-screen
+  ════════════════════════════════════════════════════════ -->
+  <div id="c2" class="panel" style="width:100%">
+
+    <!-- DESKTOP -->
+    <div class="desktop-only">
+      <div class="concept-label">Concept 2 — <span>Split Screen</span> · Photo on left half, white form panel on right</div>
+      <div class="hero" style="margin-top:0">
+        <div class="left">
+          <div class="photo" style="position:absolute;inset:0"></div>
+          <div class="left-content">
+            <div class="eyebrow"><div class="eyebrow-dot"></div>SAME-DAY · MIAMI &amp; BROWARD</div>
+            <h1>Junk Gone.<em>Today.</em></h1>
+            <p class="sub">Fast, upfront-priced removal across South Florida. We do the heavy lifting.</p>
+            <div class="stars">★★★★★ <span>4.9 · 500+ reviews</span></div>
+            <div class="pills">
+              <div class="pill">✅ Licensed &amp; Insured</div>
+              <div class="pill">♻️ Eco-Friendly</div>
+              <div class="pill">🔒 Upfront Pricing</div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="right-title">Get Your Free Quote</div>
+          <div class="right-sub">We respond within 15 minutes — no obligation.</div>
+          <div class="form-grid">
+            <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+            <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+            <div class="ff full"><label>City or Zip</label><input placeholder="Miami, Coral Gables, 33101..." /></div>
+            <div class="ff full"><label>Service Needed</label><select><option>Select a service...</option><option>Furniture Removal</option><option>Garage Cleanout</option></select></div>
+          </div>
+          <div class="proof-strip">
+            <div class="proof-avatar">M</div>
+            <div><div class="proof-body">"Showed up in 2 hours and cleared our whole garage. Exactly what they quoted."</div><div class="proof-name">★★★★★ Maria R. — Miami, FL</div></div>
+          </div>
+          <button class="btn-submit">Get My Free Quote →</button>
+          <div class="form-note">No spam · No obligation · We call within 15 min</div>
+        </div>
+      </div>
+      <div class="anno-bar">
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Clean separation of story + action</div><div class="anno-desc">Left = emotional (photo, headline, social proof). Right = rational (form). Natural left-to-right reading flow leads directly into conversion.</div></div>
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">No overlay readability issues</div><div class="anno-desc">Text is always on a solid white background — no risk of contrast problems. Works with any photo.</div></div>
+        <div class="anno"><span class="anno-tag tag-blue">CONSIDERATION</span><div class="anno-title">Nav lives outside the hero</div><div class="anno-desc">Navigation can sit above the split or be transparent over the photo half. Both work well.</div></div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="mobile-only">
+      <div class="mobile-wrap">
+        <div class="phone-frame">
+          <div class="m-nav" style="position:relative;z-index:10">
+            <div class="m-logo">♻ JRSUSA</div>
+            <button class="m-cta-btn">Free Quote</button>
+          </div>
+          <div class="m-trust">✅ Licensed &amp; Insured &nbsp;·&nbsp; ⚡ Same-Day</div>
+          <div class="m-photo-top" style="position:relative">
+            <div class="photo" style="position:absolute;inset:0"></div>
+            <div class="photo-overlay"></div>
+            <div class="m-overlay-text">
+              <div class="m-eyebrow">⚡ SAME-DAY · MIAMI &amp; BROWARD</div>
+              <div class="m-h1">Junk Gone. <em>Today.</em></div>
+            </div>
+          </div>
+          <div class="m-form-section">
+            <div class="m-title">Get Your Free Quote</div>
+            <div class="m-sub-text">We respond within 15 minutes — no obligation.</div>
+            <div class="form-grid one-col">
+              <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+              <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+              <div class="ff"><label>City or Zip</label><input placeholder="Miami, 33101..." /></div>
+              <div class="ff"><label>Service</label><select><option>Select a service...</option></select></div>
+            </div>
+            <div class="proof-strip" style="margin-top:12px">
+              <div class="proof-avatar">M</div>
+              <div><div class="proof-body">"Showed up in 2 hours. Price was exactly as quoted."</div><div class="proof-name">★★★★★ Maria R. — Miami</div></div>
+            </div>
+            <button class="btn-submit" style="font-size:14px;padding:13px">Get My Free Quote →</button>
+            <div class="form-note">No spam · No obligation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONCEPT 3: Cinematic strip
+  ════════════════════════════════════════════════════════ -->
+  <div id="c3" class="panel" style="width:100%">
+
+    <!-- DESKTOP -->
+    <div class="desktop-only">
+      <div class="concept-label">Concept 3 — <span>Cinematic Strip</span> · Wide photo header, headline overlaid at bottom, form below on white</div>
+      <nav>
+        <div class="nav-logo">♻ JunkRemovalServiceUSA</div>
+        <div class="nav-links"><span>Services ▾</span><span>Pricing</span><span>About</span></div>
+        <div class="nav-cta"><span class="nav-phone">(855) 885-5865</span><button class="btn-green">Free Quote</button></div>
+      </nav>
+      <div class="trust-bar">
+        <span>✅ Licensed &amp; Insured</span><span>⚡ Same-Day</span><span>♻️ 80% Recycled</span><span>⭐ 500+ Reviews</span><span>🔒 Upfront Pricing</span>
+      </div>
+      <div class="photo-strip">
+        <div class="photo" style="position:absolute;inset:0"></div>
+        <div class="strip-overlay"></div>
+        <div class="strip-content">
+          <div class="eyebrow"><div class="eyebrow-dot"></div>SAME-DAY AVAILABLE · MIAMI &amp; BROWARD COUNTY</div>
+          <h1>Junk Gone. <em>Today.</em></h1>
+          <div class="stars">★★★★★ <span>4.9 out of 5 · 500+ South Florida reviews</span></div>
+        </div>
+      </div>
+      <div class="below">
+        <div class="below-grid">
+          <div class="left-copy">
+            <p class="sub">Fast, upfront-priced junk removal across South Florida. We do all the heavy lifting — you just point at the pile. Same-day available.</p>
+            <div class="ctas">
+              <button class="btn-main">Get Free Quote →</button>
+              <button class="btn-phone">📞 (855) 885-5865</button>
+            </div>
+            <div class="pills">
+              <div class="pill">✅ No Hidden Fees</div>
+              <div class="pill">♻️ Eco-Friendly</div>
+              <div class="pill">🔒 Licensed &amp; Insured</div>
+              <div class="pill">⚡ Same-Day Available</div>
+            </div>
+          </div>
+          <div>
+            <div class="form-card" style="border: 1px solid #e5e7eb; box-shadow: 0 8px 32px rgba(0,0,0,0.1)">
+              <div class="fc-title">Get Your Free Quote</div>
+              <div class="fc-sub">We respond within 15 minutes — no obligation.</div>
+              <div class="form-grid">
+                <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+                <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+                <div class="ff full"><label>City or Zip</label><input placeholder="Miami, 33101..." /></div>
+                <div class="ff full"><label>Service</label><select><option>Select a service...</option><option>Furniture Removal</option><option>Garage Cleanout</option></select></div>
+              </div>
+              <div class="proof-strip">
+                <div class="proof-avatar">M</div>
+                <div><div class="proof-body">"Showed up in 2 hours. Cleared our whole garage. Exactly as quoted."</div><div class="proof-name">★★★★★ Maria R. — Miami, FL</div></div>
+              </div>
+              <button class="btn-submit">Get My Free Quote →</button>
+              <div class="form-note">No spam · No obligation · We call within 15 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="anno-bar">
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Widest possible photo canvas</div><div class="anno-desc">Full-width strip gives the photo maximum breathing room. Panoramic shots of a crew + truck look stunning here.</div></div>
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Best readability</div><div class="anno-desc">Form lives on a clean white background — no overlay tricks needed. Works with any photo and passes accessibility contrast requirements easily.</div></div>
+        <div class="anno"><span class="anno-tag tag-blue">CONSIDERATION</span><div class="anno-title">Requires a scroll on mobile</div><div class="anno-desc">Photo is above the fold, form is below. Mobile users need to scroll to the form — mitigate with a sticky "Get Quote" button.</div></div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="mobile-only">
+      <div class="mobile-wrap">
+        <div class="phone-frame">
+          <div class="m-nav">
+            <div class="m-logo">♻ JRSUSA</div>
+            <button class="m-cta-btn">Free Quote</button>
+          </div>
+          <div class="m-photo" style="position:relative">
+            <div class="photo" style="position:absolute;inset:0"></div>
+            <div class="m-strip-overlay"></div>
+            <div class="m-strip-content">
+              <div class="m-eyebrow">⚡ SAME-DAY · MIAMI &amp; BROWARD</div>
+              <div class="m-h1">Junk Gone. <em>Today.</em></div>
+            </div>
+          </div>
+          <div class="m-below">
+            <div class="m-stars">★★★★★ <span>4.9 · 500+ reviews</span></div>
+            <p class="m-sub">Fast, upfront-priced junk removal across South Florida. We do all the heavy lifting.</p>
+            <div class="m-ctas">
+              <div class="m-btn-main">Get Free Quote →</div>
+              <div class="m-btn-phone">📞 (855) 885-5865</div>
+            </div>
+            <div class="form-card" style="border-radius:12px;padding:18px 16px 14px;border:1px solid #e5e7eb;box-shadow:none">
+              <div class="fc-title" style="font-size:16px">Get Your Free Quote</div>
+              <div class="fc-sub">We respond within 15 min.</div>
+              <div class="form-grid one-col">
+                <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+                <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+                <div class="ff"><label>City or Zip</label><input placeholder="Miami, 33101..." /></div>
+                <div class="ff"><label>Service</label><select><option>Select a service...</option></select></div>
+              </div>
+              <button class="btn-submit" style="margin-top:10px;font-size:14px;padding:13px">Get My Free Quote →</button>
+              <div class="form-note">No spam · No obligation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONCEPT 4: Image header inside the form card
+  ════════════════════════════════════════════════════════ -->
+  <div id="c4" class="panel" style="width:100%">
+
+    <!-- DESKTOP -->
+    <div class="desktop-only">
+      <div class="concept-label">Concept 4 — <span>Image in Form Card</span> · Dark hero left, photo + stats inside the form card header</div>
+      <nav class="dark">
+        <div class="nav-logo white">♻ JunkRemovalServiceUSA</div>
+        <div class="nav-links white"><span>Services ▾</span><span>Pricing</span><span>About</span></div>
+        <div class="nav-cta"><span class="nav-phone white">(855) 885-5865</span><button class="btn-green">Free Quote</button></div>
+      </nav>
+      <div class="hero">
+        <div class="left">
+          <div class="eyebrow"><div class="eyebrow-dot"></div>SAME-DAY · MIAMI &amp; BROWARD</div>
+          <h1>Junk Gone.<em>Today.</em></h1>
+          <p class="sub">Fast, upfront-priced removal across South Florida. We do all the heavy lifting — you just point at the pile.</p>
+          <div class="stars">★★★★★ <span>4.9 · 500+ South Florida reviews</span></div>
+          <div class="pills">
+            <div class="pill"><div class="pill-dot"></div>No hidden fees</div>
+            <div class="pill"><div class="pill-dot"></div>Licensed &amp; insured</div>
+            <div class="pill"><div class="pill-dot"></div>Same-day available</div>
+            <div class="pill"><div class="pill-dot"></div>Eco-friendly disposal</div>
+          </div>
+          <button class="btn-phone">Or call us: (855) 885-5865 →</button>
+        </div>
+        <div>
+          <div class="rich-card">
+            <div class="card-photo">
+              <div class="photo" style="position:absolute;inset:0;border-radius:0"></div>
+              <div class="card-photo-overlay">
+                <div class="stat"><div class="stat-num">500+</div><div class="stat-label">5-STAR REVIEWS</div></div>
+                <div class="stat-div"></div>
+                <div class="stat"><div class="stat-num">Same</div><div class="stat-label">DAY AVAILABLE</div></div>
+                <div class="stat-div"></div>
+                <div class="stat"><div class="stat-num">$99</div><div class="stat-label">STARTS FROM</div></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Get Your Free Quote</div>
+              <div class="card-sub">We respond within 15 minutes — no obligation.</div>
+              <div class="form-grid">
+                <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+                <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+                <div class="ff full"><label>City or Zip</label><input placeholder="Miami, Coral Gables, 33101..." /></div>
+                <div class="ff full"><label>Service Needed</label><select><option>Select a service...</option><option>Furniture Removal</option><option>Garage Cleanout</option></select></div>
+              </div>
+              <div class="proof-strip">
+                <div class="proof-avatar">M</div>
+                <div><div class="proof-body">"Showed up in 2 hours and cleared our whole garage. Exactly as quoted."</div><div class="proof-name">★★★★★ Maria R. — Miami, FL</div></div>
+              </div>
+              <button class="btn-submit">Get My Free Quote →</button>
+              <div class="form-note">No spam · No obligation · We call within 15 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="anno-bar two">
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Photo + social proof in one punch</div><div class="anno-desc">The photo header on the form card holds real stat overlays (500+ reviews, same-day, $99 start). Converts the image into a trust-building element rather than decoration.</div></div>
+        <div class="anno"><span class="anno-tag tag-green">STRENGTH</span><div class="anno-title">Works with any photo quality</div><div class="anno-desc">Because the photo is contained inside the card (160px tall), even a mediocre photo looks intentional. The dark overlay + stats always look polished.</div></div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="mobile-only">
+      <div class="mobile-wrap">
+        <div class="phone-frame">
+          <div class="m-hero-bg" style="position:relative">
+            <div class="m-nav dark-nav">
+              <div class="m-logo white">♻ JRSUSA</div>
+              <button class="m-cta-btn">Free Quote</button>
+            </div>
+            <div class="m-eyebrow">⚡ SAME-DAY · MIAMI &amp; BROWARD</div>
+            <div class="m-h1">Junk Gone.<em>Today.</em></div>
+            <div class="m-stars">★★★★★ <span>4.9 · 500+ reviews</span></div>
+          </div>
+          <div class="m-card-outer">
+            <div class="m-rich-card">
+              <div class="m-card-photo" style="position:relative">
+                <div class="photo" style="position:absolute;inset:0"></div>
+                <div class="m-card-photo-overlay">
+                  <div class="m-stat"><div class="m-stat-num">500+</div><div class="m-stat-label">REVIEWS</div></div>
+                  <div class="m-stat-div"></div>
+                  <div class="m-stat"><div class="m-stat-num">Same Day</div><div class="m-stat-label">AVAILABLE</div></div>
+                  <div class="m-stat-div"></div>
+                  <div class="m-stat"><div class="m-stat-num">$99</div><div class="m-stat-label">FROM</div></div>
+                </div>
+              </div>
+              <div class="m-card-body">
+                <div class="m-card-title">Get Your Free Quote</div>
+                <div class="m-card-sub">We respond within 15 min — no obligation.</div>
+                <div class="form-grid one-col">
+                  <div class="ff"><label>Name</label><input placeholder="Jane Smith" /></div>
+                  <div class="ff"><label>Phone</label><input placeholder="(305) 555-0000" /></div>
+                  <div class="ff"><label>City or Zip</label><input placeholder="Miami, 33101..." /></div>
+                  <div class="ff"><label>Service</label><select><option>Select a service...</option></select></div>
+                </div>
+                <div class="proof-strip" style="margin-top:10px">
+                  <div class="proof-avatar">M</div>
+                  <div><div class="proof-body">"Showed up in 2 hours. Exactly as quoted."</div><div class="proof-name">★★★★★ Maria R. — Miami</div></div>
+                </div>
+                <button class="btn-submit" style="font-size:14px;padding:13px">Get My Free Quote →</button>
+                <div class="form-note">No spam · No obligation</div>
+              </div>
+            </div>
+          </div>
+          <div class="m-pills">
+            <div class="m-pill">✅ No hidden fees</div>
+            <div class="m-pill">♻️ Eco-friendly</div>
+            <div class="m-pill">⚡ Same-day</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showConcept(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function setDevice(device, btn) {
+    document.querySelectorAll('.dev-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (device === 'mobile') {
+      document.body.classList.add('mobile-view');
+    } else {
+      document.body.classList.remove('mobile-view');
+    }
+  }
+</script>
+</body>
+</html>

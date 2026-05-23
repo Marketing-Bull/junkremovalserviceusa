@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hero-wireframe",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "4000", "wireframe"],
+      "port": 4000
+    }
+  ]
+}
