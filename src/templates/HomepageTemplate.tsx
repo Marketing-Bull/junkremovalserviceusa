@@ -16,6 +16,13 @@ import { services } from "@/data/services"
 import { cities } from "@/data/cities"
 import { PHONE } from "@/lib/constants"
 
+const trustPills = ["No hidden fees", "Licensed & insured", "Eco-friendly", "Same-day available"]
+const heroStats = [
+  { num: "500+", label: "5-Star Reviews" },
+  { num: "Same Day", label: "Available" },
+  { num: "$99", label: "Starts From" },
+]
+
 const homepageFaqs = [
   {
     q: "What areas do you serve?",
@@ -42,48 +49,158 @@ const homepageFaqs = [
 export default function HomepageTemplate() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 to-green-900 text-white">
-        <TrustBar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* ── Trust bar (both layouts) ─────────────────────────── */}
+      <TrustBar />
+
+      {/* ── Hero ─────────────────────────────────────────────── */}
+
+      {/* DESKTOP: Split Screen — photo left | form right */}
+      <section className="hidden lg:grid lg:grid-cols-2 min-h-[640px]">
+
+        {/* Left — photo + overlay + content */}
+        <div className="relative flex flex-col justify-center px-14 xl:px-20 py-16 overflow-hidden">
+
+          {/*
+            PHOTO PLACEHOLDER — replace this div with a real image:
+            import Image from "next/image"
+            <Image src="/images/hero.jpg" alt="Junk removal crew loading a truck" fill className="object-cover" priority />
+          */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-green-950 to-gray-900" />
+          {/* Dark overlay sits on top of real photo */}
+          <div className="absolute inset-0 bg-black/45" />
+
+          {/* Content */}
+          <div className="relative z-10 max-w-lg">
+            <div className="flex items-center gap-2 text-green-400 text-xs font-bold tracking-widest uppercase mb-5">
+              <span className="inline-block w-2 h-2 rounded-full bg-green-400" />
+              Same-Day · Miami &amp; Broward County
+            </div>
+
+            <h1 className="text-5xl xl:text-[4rem] font-black text-white leading-none tracking-tight mb-5">
+              Junk Gone.<br />
+              <span className="text-green-400">Today.</span>
+            </h1>
+
+            <p className="text-gray-300 text-lg leading-relaxed mb-7">
+              Fast, upfront-priced junk removal across South Florida. We do all the heavy lifting — you just point at the pile.
+            </p>
+
+            {/* Star rating */}
+            <div className="flex items-center gap-3 mb-7">
+              <span className="text-yellow-400 text-xl tracking-wide">★★★★★</span>
+              <span className="text-white font-bold text-sm">4.9</span>
+              <span className="text-gray-400 text-sm">· 500+ South Florida reviews</span>
+            </div>
+
+            {/* Trust pills */}
+            <div className="flex flex-wrap gap-2">
+              {trustPills.map((pill) => (
+                <span
+                  key={pill}
+                  className="flex items-center gap-1.5 bg-white/[0.07] border border-white/[0.12] rounded-full px-3 py-1.5 text-gray-300 text-xs font-semibold"
+                >
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right — white form panel */}
+        <div className="bg-white flex flex-col justify-center px-12 xl:px-16 py-12" id="quote">
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-1">Get Your Free Quote</h2>
+          <p className="text-gray-500 text-sm mb-6">We respond within 15 minutes — no obligation.</p>
+
+          {/* Customer quote */}
+          <div className="flex items-start gap-3 bg-green-50 border border-green-100 rounded-xl p-4 mb-6">
+            <div className="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">M</div>
             <div>
-              <div className="inline-flex items-center gap-2 bg-green-700/40 text-green-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
-                ⚡ Same-Day Available · South Florida
-              </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-5">
-                Junk Removal{" "}
-                <span className="text-green-400">Done Right.</span>
-              </h1>
-              <p className="text-xl text-gray-300 mb-6 leading-relaxed">
-                Fast, affordable junk removal across Miami and Broward County. Licensed, insured, and eco-friendly. We haul it all so you don't have to.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a
-                  href={`tel:${PHONE.replace(/\D/g, "")}`}
-                  className="flex items-center justify-center gap-2 bg-white text-green-800 font-bold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors text-lg"
-                >
-                  📞 {PHONE}
-                </a>
-                <a
-                  href="#quote"
-                  className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 text-white font-bold px-6 py-3 rounded-lg transition-colors text-lg"
-                >
-                  Get Free Quote →
-                </a>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3 text-sm text-gray-400">
-                <span>✅ No Hidden Fees</span>
-                <span>⭐ 500+ 5-Star Reviews</span>
-                <span>♻️ Eco-Friendly</span>
+              <p className="text-xs text-green-800 leading-relaxed">&ldquo;Showed up in 2 hours and cleared our whole garage. Price was exactly what they quoted.&rdquo;</p>
+              <p className="text-[10px] text-green-700 font-bold mt-1.5">★★★★★ Maria R. — Miami, FL</p>
+            </div>
+          </div>
+
+          <LeadForm />
+
+          <p className="text-center text-xs text-gray-400 mt-4">
+            Prefer to call?{" "}
+            <a href={`tel:${PHONE.replace(/\D/g, "")}`} className="text-green-600 font-semibold hover:underline">
+              {PHONE}
+            </a>
+          </p>
+        </div>
+      </section>
+
+      {/* MOBILE: Image in Card */}
+      <section className="lg:hidden">
+
+        {/* Dark header with headline */}
+        <div className="bg-gradient-to-br from-gray-900 to-green-950 px-5 pt-7 pb-10">
+          <div className="flex items-center gap-2 text-green-400 text-xs font-bold tracking-widest uppercase mb-4">
+            <span className="inline-block w-2 h-2 rounded-full bg-green-400" />
+            Same-Day · Miami &amp; Broward
+          </div>
+          <h1 className="text-4xl font-black text-white leading-none tracking-tight mb-4">
+            Junk Gone.<br />
+            <span className="text-green-400">Today.</span>
+          </h1>
+          <div className="flex items-center gap-2">
+            <span className="text-yellow-400 text-base tracking-wide">★★★★★</span>
+            <span className="text-gray-300 text-sm font-semibold">4.9 · 500+ reviews</span>
+          </div>
+        </div>
+
+        {/* Card pulled up over the dark section */}
+        <div className="bg-gray-50 px-4 pt-0 pb-8">
+          <div className="bg-white rounded-2xl overflow-hidden shadow-2xl -mt-5" id="quote">
+
+            {/* Photo header with stat overlays */}
+            <div className="relative h-36 overflow-hidden">
+              {/*
+                PHOTO PLACEHOLDER — replace with a real image:
+                import Image from "next/image"
+                <Image src="/images/hero.jpg" alt="Junk removal crew" fill className="object-cover" priority />
+              */}
+              <HeroIllustration width="100%" height={144} className="w-full h-full" />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/50" />
+              {/* Stats */}
+              <div className="absolute inset-0 flex items-center justify-around px-4">
+                {heroStats.map((stat, i) => (
+                  <div key={stat.num} className="flex items-center gap-4">
+                    {i > 0 && <div className="w-px h-9 bg-white/25" />}
+                    <div className="text-center text-white">
+                      <div className="text-lg font-black leading-none">{stat.num}</div>
+                      <div className="text-[10px] font-semibold opacity-75 uppercase tracking-wide mt-0.5">{stat.label}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            {/* Lead form with hero illustration above */}
-            <div id="quote">
-              <div className="mb-6 flex justify-center">
-                <HeroIllustration width={380} height={200} className="rounded-2xl opacity-90" />
+
+            {/* Form area */}
+            <div className="p-5">
+              <h2 className="text-lg font-extrabold text-gray-900 mb-0.5">Get Your Free Quote</h2>
+              <p className="text-gray-500 text-xs mb-4">We respond within 15 min — no obligation.</p>
+
+              {/* Mini customer quote */}
+              <div className="flex items-start gap-3 bg-green-50 border border-green-100 rounded-xl p-3 mb-4">
+                <div className="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">M</div>
+                <div>
+                  <p className="text-xs text-green-800 leading-relaxed">&ldquo;Showed up in 2 hours. Price was exactly as quoted.&rdquo;</p>
+                  <p className="text-[10px] text-green-700 font-bold mt-1">★★★★★ Maria R. — Miami, FL</p>
+                </div>
               </div>
-              <LeadForm />
+
+              <LeadForm compact />
+
+              <a
+                href={`tel:${PHONE.replace(/\D/g, "")}`}
+                className="flex items-center justify-center gap-2 mt-4 text-sm font-semibold text-green-700 hover:text-green-800"
+              >
+                📞 {PHONE}
+              </a>
             </div>
           </div>
         </div>
