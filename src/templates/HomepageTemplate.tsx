@@ -5,6 +5,7 @@
  */
 
 import Link from "next/link"
+import Image from "next/image"
 import LeadForm from "@/components/LeadForm"
 import WhyUsSection from "@/components/WhyUsSection"
 import HowItWorks from "@/components/HowItWorks"
@@ -60,12 +61,7 @@ export default function HomepageTemplate() {
         {/* Left — photo + overlay + content */}
         <div className="relative flex flex-col justify-center px-14 xl:px-20 py-16 overflow-hidden">
 
-          {/*
-            PHOTO PLACEHOLDER — replace this div with a real image:
-            import Image from "next/image"
-            <Image src="/images/hero.jpg" alt="Junk removal crew loading a truck" fill className="object-cover" priority />
-          */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-green-950 to-gray-900" />
+          <Image src="/images/hero.jpeg" alt="Junk removal crew loading a truck in Miami" fill className="object-cover" priority />
           {/* Dark overlay sits on top of real photo */}
           <div className="absolute inset-0 bg-black/45" />
 
@@ -157,12 +153,7 @@ export default function HomepageTemplate() {
 
             {/* Photo header with stat overlays */}
             <div className="relative h-36 overflow-hidden">
-              {/*
-                PHOTO PLACEHOLDER — replace with a real image:
-                import Image from "next/image"
-                <Image src="/images/hero.jpg" alt="Junk removal crew" fill className="object-cover" priority />
-              */}
-              <HeroIllustration width="100%" height={144} className="w-full h-full" />
+              <Image src="/images/hero2.png" alt="Junk removal crew loading a truck in Miami" fill className="object-cover" priority />
               {/* Overlay */}
               <div className="absolute inset-0 bg-black/50" />
               {/* Stats */}
