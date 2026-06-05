@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { Loader } from "@googlemaps/js-api-loader"
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader"
 
 interface Props {
   value: string
@@ -10,18 +10,17 @@ interface Props {
   className?: string
 }
 
-let loaderPromise: Promise<typeof google> | null = null
+let configured = false
 
-function getLoader() {
-  if (!loaderPromise) {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
-      libraries: ["places"],
-      version: "weekly",
+function loadPlaces(): Promise<google.maps.PlacesLibrary> {
+  if (!configured) {
+    setOptions({
+      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
+      v: "weekly",
     })
-    loaderPromise = loader.load()
+    configured = true
   }
-  return loaderPromise
+  return importLibrary("places") as Promise<google.maps.PlacesLibrary>
 }
 
 export default function PlacesAutocomplete({ value, onChange, placeholder, className }: Props) {
@@ -32,27 +31,28 @@ export default function PlacesAutocomplete({ value, onChange, placeholder, class
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     if (!apiKey || !inputRef.current) return
 
-    getLoader().then(() => {
+    loadPlaces().then(({ Autocomplete }) => {
       if (!inputRef.current || autocompleteRef.current) return
 
-      autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current, {
+      autocompleteRef.current = new Autocomplete(inputRef.current, {
         types: ["(cities)"],
         componentRestrictions: { country: "us" },
-        fields: ["formatted_address", "address_components", "name"],
+        fields: ["address_components", "name"],
       })
 
       autocompleteRef.current.addListener("place_changed", () => {
-        const place = autocompleteRef.current!.getPlace()
-        if (!place.address_components) return
+        const place = autocompleteRef.current?.getPlace()
+        if (!place?.address_components) return
 
-        // Build a clean "City, ST" string
-        const city = place.address_components.find(c => c.types.includes("locality"))?.long_name
-          ?? place.address_components.find(c => c.types.includes("sublocality"))?.long_name
-          ?? place.name
-          ?? ""
-        const state = place.address_components.find(c =>
-          c.types.includes("administrative_area_level_1")
-        )?.short_name ?? ""
+        const city =
+          place.address_components.find(c => c.types.includes("locality"))?.long_name ??
+          place.address_components.find(c => c.types.includes("sublocality"))?.long_name ??
+          place.name ??
+          ""
+        const state =
+          place.address_components.find(c =>
+            c.types.includes("administrative_area_level_1")
+          )?.short_name ?? ""
 
         onChange(state ? `${city}, ${state}` : city)
       })
