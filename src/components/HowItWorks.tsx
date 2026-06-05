@@ -1,18 +1,18 @@
 const steps = [
   {
     step: "1",
-    title: "Get a Free Quote",
-    description: "Fill out our quick form or call us. A specialist will confirm pricing in minutes.",
+    title: "Book in 2 Minutes",
+    description: "Choose your service, pick a time window, and submit your request — all online. No credit card needed.",
   },
   {
     step: "2",
-    title: "We Show Up On Time",
-    description: "Our crew arrives at your scheduled window — same-day or next-day, your choice.",
+    title: "We Arrive. You Just Point.",
+    description: "Your crew shows up at the scheduled window, takes a look at what needs to go, and gives you a firm upfront price. No obligation — you can say no at any time.",
   },
   {
     step: "3",
-    title: "We Haul It All Away",
-    description: "Point to what goes. We do all the lifting, loading, and cleanup. Done.",
+    title: "Junk Gone. Space Reclaimed.",
+    description: "Say yes and we get straight to work. All the lifting, loading, and cleanup — done. You don't have to lift a finger.",
   },
 ]
 
