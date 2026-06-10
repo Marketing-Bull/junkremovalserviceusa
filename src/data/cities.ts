@@ -812,6 +812,113 @@ export const cities: City[] = [
     zipCodes: ["32703", "32712"],
     phone: "(407) 555-3800",
   },
+  {
+    slug: "palm-coast",
+    name: "Palm Coast",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Flagler County",
+    headline: "Junk Removal in Palm Coast, FL",
+    description:
+      "Same-day junk removal in Palm Coast and Flagler County. Estate cleanouts, downsizing, and household junk hauled away fast.",
+    neighborhoods: [
+      { name: "Palm Harbor", slug: "palm-harbor" },
+      { name: "Indian Trails", slug: "indian-trails" },
+      { name: "Cypress Knoll", slug: "cypress-knoll" },
+      { name: "Matanzas Woods", slug: "matanzas-woods" },
+    ],
+    zipCodes: ["32137", "32164"],
+    phone: "(386) 555-3900",
+  },
+  {
+    slug: "fort-pierce",
+    name: "Fort Pierce",
+    state: "Florida",
+    stateCode: "FL",
+    county: "St. Lucie County",
+    headline: "Junk Removal in Fort Pierce, FL",
+    description:
+      "Reliable junk removal in Fort Pierce and St. Lucie County. Garage cleanouts, furniture removal, and storm debris hauling.",
+    neighborhoods: [
+      { name: "Downtown Fort Pierce", slug: "downtown-fort-pierce" },
+      { name: "Hutchinson Island", slug: "hutchinson-island" },
+      { name: "Lakewood Park", slug: "lakewood-park" },
+      { name: "White City", slug: "white-city" },
+    ],
+    zipCodes: ["34947", "34949", "34950", "34951", "34982"],
+    phone: "(772) 555-4000",
+  },
+  {
+    slug: "north-port",
+    name: "North Port",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Sarasota County",
+    headline: "Junk Removal in North Port, FL",
+    description:
+      "Fast, eco-friendly junk removal in North Port and Sarasota County. Same-day pickups for homes and businesses.",
+    neighborhoods: [
+      { name: "Warm Mineral Springs", slug: "warm-mineral-springs" },
+      { name: "Heron Creek", slug: "heron-creek" },
+      { name: "Bobcat Trail", slug: "bobcat-trail" },
+      { name: "Talavera", slug: "talavera" },
+    ],
+    zipCodes: ["34286", "34287", "34288", "34289", "34291"],
+    phone: "(941) 555-4100",
+  },
+  {
+    slug: "weston",
+    name: "Weston",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Broward County",
+    headline: "Junk Removal in Weston, FL",
+    description:
+      "Licensed, insured junk removal in Weston and Broward County. Estate cleanouts and white-glove furniture hauling.",
+    neighborhoods: [
+      { name: "Weston Hills", slug: "weston-hills" },
+      { name: "Bonaventure", slug: "bonaventure" },
+      { name: "Savanna", slug: "savanna" },
+      { name: "Country Isles", slug: "country-isles" },
+    ],
+    zipCodes: ["33326", "33327", "33331", "33332"],
+    phone: "(954) 555-4200",
+  },
+  {
+    slug: "pinellas-park",
+    name: "Pinellas Park",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Pinellas County",
+    headline: "Junk Removal in Pinellas Park, FL",
+    description:
+      "Dependable junk hauling in Pinellas Park and Pinellas County. Residential and commercial cleanouts done same day.",
+    neighborhoods: [
+      { name: "Mainlands", slug: "mainlands" },
+      { name: "Bonnie Bay", slug: "bonnie-bay" },
+      { name: "Skyview", slug: "skyview" },
+    ],
+    zipCodes: ["33781", "33782", "34665"],
+    phone: "(727) 555-4300",
+  },
+  {
+    slug: "deerfield-beach",
+    name: "Deerfield Beach",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Broward County",
+    headline: "Junk Removal in Deerfield Beach, FL",
+    description:
+      "Same-day junk removal in Deerfield Beach and Broward County. Condo cleanouts, vacation-rental turnovers, and furniture hauling.",
+    neighborhoods: [
+      { name: "Deerfield Beach Island", slug: "deerfield-beach-island" },
+      { name: "Century Village", slug: "century-village" },
+      { name: "The Cove", slug: "the-cove" },
+      { name: "Crystal Lake", slug: "crystal-lake" },
+    ],
+    zipCodes: ["33441", "33442", "33064", "33073"],
+    phone: "(954) 555-4400",
+  },
 ]
 
 export function getCityBySlug(slug: string): City | undefined {

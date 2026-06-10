@@ -32,8 +32,8 @@ rental churn, new-construction debris, and hurricane/storm cleanup.
 
 ### Covered today (6)
 Miami, Fort Lauderdale, Hollywood, Pembroke Pines, Miramar, Pompano Beach
-— all Miami-Dade / Broward (the "Tri-County" minus Palm Beach). Tiers 1 & 2
-below were added on top of these, bringing the total to 27 FL cities.
+— all Miami-Dade / Broward (the "Tri-County" minus Palm Beach). Tiers 1–3
+below were added on top of these, bringing the total to 44 FL cities.
 
 ### Tier 1 — highest-volume untapped metros ✅ *added in this change*
 
@@ -50,9 +50,13 @@ Cape Coral, Fort Myers, Sarasota, Naples (affluent → high-ticket cleanouts),
 Tallahassee, Gainesville, Lakeland, Clearwater, Boca Raton, Coral Springs,
 Palm Bay, Melbourne, Port St. Lucie, Pensacola, Ocala, Daytona Beach.
 
-### Tier 3 — saturation
-Remaining 50k+ population cities and high-intent neighborhoods within
-already-covered metros (neighborhood landing pages).
+### Tier 3 — saturation ✅ *added in this change*
+Boynton Beach, Delray Beach, Deltona, Kissimmee, Bradenton, Sunrise,
+Plantation, Davie, Largo, Sanford, Apopka, Palm Coast, Fort Pierce,
+North Port, Weston, Pinellas Park, Deerfield Beach. This covers essentially
+all FL cities above ~50k population. Further depth = high-intent neighborhood
+landing pages within already-covered metros (e.g. promoting Hialeah, Doral,
+and Miami Gardens — currently Miami neighborhoods — to their own pages).
 
 ### Florida state hub
 Add a `/florida` hub page linking every FL metro to consolidate topical
@@ -116,11 +120,11 @@ plus the existing `/services/{service}` cross-linked into every location.
 
 ## 4. Suggested sequencing / milestones
 
-1. **M1 (this change):** FL Tiers 1 & 2 live (21 added metros, 27 FL cities
+1. **M1 (this change):** FL Tiers 1–3 live (38 added cities, 44 FL cities
    total) under the existing flat route. Low risk, reversible.
 2. **M2:** Phase 0 refactor — `/[state]/[city]` routing, data-driven model,
    redirects, sitemap shards.
-3. **M3:** FL Tier 3 saturation + `/florida` hub on the new architecture.
+3. **M3:** `/florida` hub + neighborhood landing pages on the new architecture.
 4. **M4:** National Wave A metros.
 5. **M5+:** Waves B/C + 50-state hubs, gated on indexation/ranking data from
    prior waves.
