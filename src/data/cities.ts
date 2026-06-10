@@ -385,6 +385,115 @@ export const cities: City[] = [
     ],
     phone: "(850) 555-1600",
   },
+  {
+    slug: "gainesville",
+    name: "Gainesville",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Alachua County",
+    headline: "Junk Removal in Gainesville, FL",
+    description:
+      "Fast junk removal in Gainesville and Alachua County. Student move-outs, apartment cleanouts, and furniture hauling done same day.",
+    neighborhoods: [
+      { name: "Downtown Gainesville", slug: "downtown-gainesville" },
+      { name: "Haile Plantation", slug: "haile-plantation" },
+      { name: "Midtown", slug: "midtown-gainesville" },
+      { name: "Duckpond", slug: "duckpond" },
+      { name: "Tower Road", slug: "tower-road" },
+      { name: "Turlington", slug: "turlington" },
+    ],
+    zipCodes: [
+      "32601", "32603", "32605", "32606", "32607",
+      "32608", "32609", "32641", "32653",
+    ],
+    phone: "(352) 555-1700",
+  },
+  {
+    slug: "lakeland",
+    name: "Lakeland",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Polk County",
+    headline: "Junk Removal in Lakeland, FL",
+    description:
+      "Dependable junk hauling throughout Lakeland and Polk County. Residential cleanouts, appliance removal, and yard debris.",
+    neighborhoods: [
+      { name: "Dixieland", slug: "dixieland" },
+      { name: "Lake Morton", slug: "lake-morton" },
+      { name: "Grasslands", slug: "grasslands" },
+      { name: "South Lakeland", slug: "south-lakeland" },
+      { name: "Lake Hollingsworth", slug: "lake-hollingsworth" },
+    ],
+    zipCodes: [
+      "33801", "33803", "33805", "33809", "33810",
+      "33811", "33812", "33813", "33815",
+    ],
+    phone: "(863) 555-1800",
+  },
+  {
+    slug: "clearwater",
+    name: "Clearwater",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Pinellas County",
+    headline: "Junk Removal in Clearwater, FL",
+    description:
+      "Same-day junk removal in Clearwater and across Pinellas County. Condo cleanouts, furniture removal, and vacation-rental turnovers.",
+    neighborhoods: [
+      { name: "Clearwater Beach", slug: "clearwater-beach" },
+      { name: "Countryside", slug: "countryside" },
+      { name: "Downtown Clearwater", slug: "downtown-clearwater" },
+      { name: "Sand Key", slug: "sand-key" },
+      { name: "Morningside", slug: "morningside" },
+    ],
+    zipCodes: [
+      "33755", "33756", "33759", "33760", "33761",
+      "33763", "33764", "33765", "33767", "33770",
+    ],
+    phone: "(727) 555-1900",
+  },
+  {
+    slug: "boca-raton",
+    name: "Boca Raton",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Palm Beach County",
+    headline: "Junk Removal in Boca Raton, FL",
+    description:
+      "Licensed, insured junk removal in Boca Raton and Palm Beach County. Estate cleanouts and white-glove furniture hauling.",
+    neighborhoods: [
+      { name: "Downtown Boca", slug: "downtown-boca" },
+      { name: "East Boca", slug: "east-boca" },
+      { name: "West Boca", slug: "west-boca" },
+      { name: "Boca Del Mar", slug: "boca-del-mar" },
+      { name: "Mizner Park", slug: "mizner-park" },
+      { name: "Royal Palm", slug: "royal-palm-boca" },
+    ],
+    zipCodes: [
+      "33428", "33431", "33432", "33433", "33434",
+      "33486", "33487", "33496", "33498",
+    ],
+    phone: "(561) 555-2000",
+  },
+  {
+    slug: "coral-springs",
+    name: "Coral Springs",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Broward County",
+    headline: "Junk Removal in Coral Springs, FL",
+    description:
+      "Reliable junk removal in Coral Springs and northwest Broward County. Garage cleanouts, furniture, and household junk hauled away.",
+    neighborhoods: [
+      { name: "Eagle Trace", slug: "eagle-trace" },
+      { name: "Maplewood", slug: "maplewood" },
+      { name: "Coral Springs Country Club", slug: "coral-springs-country-club" },
+      { name: "Heron Bay", slug: "heron-bay" },
+      { name: "Ramblewood", slug: "ramblewood" },
+    ],
+    zipCodes: ["33065", "33067", "33071", "33076"],
+    phone: "(954) 555-2100",
+  },
 ]
 
 export function getCityBySlug(slug: string): City | undefined {
