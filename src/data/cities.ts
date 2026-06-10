@@ -612,6 +612,98 @@ export const cities: City[] = [
     zipCodes: ["32114", "32117", "32118", "32119", "32124"],
     phone: "(386) 555-2700",
   },
+  {
+    slug: "boynton-beach",
+    name: "Boynton Beach",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Palm Beach County",
+    headline: "Junk Removal in Boynton Beach, FL",
+    description:
+      "Same-day junk removal in Boynton Beach and Palm Beach County. Condo cleanouts, furniture removal, and household junk hauling.",
+    neighborhoods: [
+      { name: "Downtown Boynton", slug: "downtown-boynton" },
+      { name: "Leisureville", slug: "leisureville" },
+      { name: "Quantum Park", slug: "quantum-park" },
+      { name: "Hunters Run", slug: "hunters-run" },
+    ],
+    zipCodes: ["33426", "33435", "33436", "33437", "33472", "33473"],
+    phone: "(561) 555-2800",
+  },
+  {
+    slug: "delray-beach",
+    name: "Delray Beach",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Palm Beach County",
+    headline: "Junk Removal in Delray Beach, FL",
+    description:
+      "Reliable junk removal in Delray Beach and Palm Beach County. Estate cleanouts, downsizing, and same-day pickups.",
+    neighborhoods: [
+      { name: "Atlantic Avenue", slug: "atlantic-avenue" },
+      { name: "Pineapple Grove", slug: "pineapple-grove" },
+      { name: "Lake Ida", slug: "lake-ida" },
+      { name: "Tropic Isle", slug: "tropic-isle" },
+      { name: "Del-Aire", slug: "del-aire" },
+    ],
+    zipCodes: ["33444", "33445", "33446", "33483", "33484"],
+    phone: "(561) 555-2900",
+  },
+  {
+    slug: "deltona",
+    name: "Deltona",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Volusia County",
+    headline: "Junk Removal in Deltona, FL",
+    description:
+      "Dependable junk hauling throughout Deltona and Volusia County. Garage cleanouts, appliances, and yard debris removed fast.",
+    neighborhoods: [
+      { name: "Deltona Lakes", slug: "deltona-lakes" },
+      { name: "Saxon", slug: "saxon" },
+      { name: "Howland", slug: "howland" },
+      { name: "Lake Helen", slug: "lake-helen" },
+    ],
+    zipCodes: ["32725", "32738", "32739"],
+    phone: "(386) 555-3000",
+  },
+  {
+    slug: "kissimmee",
+    name: "Kissimmee",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Osceola County",
+    headline: "Junk Removal in Kissimmee, FL",
+    description:
+      "Fast junk removal in Kissimmee and Osceola County. Vacation-rental turnovers, apartment cleanouts, and furniture hauling.",
+    neighborhoods: [
+      { name: "Downtown Kissimmee", slug: "downtown-kissimmee" },
+      { name: "Celebration", slug: "celebration" },
+      { name: "Buenaventura Lakes", slug: "buenaventura-lakes" },
+      { name: "Poinciana", slug: "poinciana" },
+    ],
+    zipCodes: ["34741", "34743", "34744", "34746", "34747", "34758", "34759"],
+    phone: "(407) 555-3100",
+  },
+  {
+    slug: "bradenton",
+    name: "Bradenton",
+    state: "Florida",
+    stateCode: "FL",
+    county: "Manatee County",
+    headline: "Junk Removal in Bradenton, FL",
+    description:
+      "Licensed, insured junk removal throughout Bradenton and Manatee County. Estate cleanouts, downsizing, and same-day hauling.",
+    neighborhoods: [
+      { name: "Downtown Bradenton", slug: "downtown-bradenton" },
+      { name: "West Bradenton", slug: "west-bradenton" },
+      { name: "Bayshore Gardens", slug: "bayshore-gardens" },
+      { name: "Lakewood Ranch", slug: "lakewood-ranch" },
+      { name: "Palma Sola", slug: "palma-sola" },
+    ],
+    zipCodes: ["34203", "34205", "34207", "34208", "34209", "34210", "34211"],
+    phone: "(941) 555-3200",
+  },
 ]
 
 export function getCityBySlug(slug: string): City | undefined {
