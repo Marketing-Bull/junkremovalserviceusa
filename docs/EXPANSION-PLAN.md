@@ -32,9 +32,11 @@ rental churn, new-construction debris, and hurricane/storm cleanup.
 
 ### Covered today (6)
 Miami, Fort Lauderdale, Hollywood, Pembroke Pines, Miramar, Pompano Beach
-— all Miami-Dade / Broward (the "Tri-County" minus Palm Beach).
+— all Miami-Dade / Broward (the "Tri-County" minus Palm Beach). Tiers 1 & 2
+below were added on top of these, bringing the total to 27 FL cities.
 
 ### Tier 1 — highest-volume untapped metros ✅ *added in this change*
+
 | City | County | Metro rationale |
 |---|---|---|
 | Orlando | Orange | Top-4 FL metro, huge tourism + residential churn |
@@ -43,10 +45,10 @@ Miami, Fort Lauderdale, Hollywood, Pembroke Pines, Miramar, Pompano Beach
 | St. Petersburg | Pinellas | Completes Tampa Bay coverage |
 | West Palm Beach | Palm Beach | Completes the South FL Tri-County |
 
-### Tier 2 — next wave (recommended)
+### Tier 2 — secondary metros ✅ *added in this change*
 Cape Coral, Fort Myers, Sarasota, Naples (affluent → high-ticket cleanouts),
 Tallahassee, Gainesville, Lakeland, Clearwater, Boca Raton, Coral Springs,
-Palm Bay / Melbourne, Port St. Lucie.
+Palm Bay, Melbourne, Port St. Lucie, Pensacola, Ocala, Daytona Beach.
 
 ### Tier 3 — saturation
 Remaining 50k+ population cities and high-intent neighborhoods within
@@ -102,7 +104,7 @@ sprawl markets over-index for this service:
   Phoenix, Atlanta, Washington DC, Philadelphia, Miami (done).
 - **Wave B (high junk-removal intent):** Charlotte, Nashville, Las Vegas,
   Denver, Austin, San Antonio, Orlando (done), Tampa (done), Raleigh,
-  Columbus, Indianapolis, Kansas City.
+  Columbus, Indianapolis, Kansas City (MO).
 - **Wave C:** remaining top-100 metros, then state hub pages for all 50
   states, then secondary cities.
 
@@ -114,11 +116,11 @@ plus the existing `/services/{service}` cross-linked into every location.
 
 ## 4. Suggested sequencing / milestones
 
-1. **M1 (this change):** FL Tier 1 live (5 metros) under the existing flat
-   route. Low risk, reversible.
+1. **M1 (this change):** FL Tiers 1 & 2 live (21 added metros, 27 FL cities
+   total) under the existing flat route. Low risk, reversible.
 2. **M2:** Phase 0 refactor — `/[state]/[city]` routing, data-driven model,
    redirects, sitemap shards.
-3. **M3:** FL Tier 2 + `/florida` hub on the new architecture.
+3. **M3:** FL Tier 3 saturation + `/florida` hub on the new architecture.
 4. **M4:** National Wave A metros.
 5. **M5+:** Waves B/C + 50-state hubs, gated on indexation/ranking data from
    prior waves.
