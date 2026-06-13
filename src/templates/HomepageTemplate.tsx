@@ -6,7 +6,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import LeadForm from "@/components/LeadForm"
+import BookingWizard from "@/components/BookingWizard"
 import WhyUsSection from "@/components/WhyUsSection"
 import HowItWorks from "@/components/HowItWorks"
 import TestimonialsSection from "@/components/TestimonialsSection"
@@ -16,7 +16,7 @@ import { services } from "@/data/services"
 import { cities } from "@/data/cities"
 import { PHONE } from "@/lib/constants"
 
-const trustPills = ["No hidden fees", "Licensed & insured", "Eco-friendly", "Same-day available"]
+const trustPills = ["No credit card", "No hidden fees", "No obligation — ever", "Same-day available"]
 const heroStats = [
   { num: "500+", label: "5-Star Reviews" },
   { num: "Same Day", label: "Available" },
@@ -72,12 +72,12 @@ export default function HomepageTemplate() {
             </div>
 
             <h1 className="text-5xl xl:text-[4rem] font-black text-white leading-none tracking-tight mb-5">
-              Junk Gone.<br />
-              <span className="text-green-400">Today.</span>
+              Just Point.<br />
+              <span className="text-green-400">We Haul It All.</span>
             </h1>
 
             <p className="text-gray-300 text-lg leading-relaxed mb-7">
-              Fast, upfront-priced junk removal across South Florida. We do all the heavy lifting — you just point at the pile.
+              Free on-site estimate. Firm price before we touch a thing. No credit card, no deposit, no obligation — ever. South Florida&rsquo;s most trusted junk crew.
             </p>
 
             {/* Star rating */}
@@ -102,21 +102,28 @@ export default function HomepageTemplate() {
           </div>
         </div>
 
-        {/* Right — white form panel */}
-        <div className="bg-white flex flex-col justify-center px-12 xl:px-16 py-12" id="quote">
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-1">Get Your Free Quote</h2>
-          <p className="text-gray-500 text-sm mb-6">We respond within 15 minutes — no obligation.</p>
+        {/* Right — white booking panel */}
+        <div className="bg-white flex flex-col justify-center px-10 xl:px-14 py-10 overflow-y-auto" id="quote">
 
-          {/* Customer quote */}
-          <div className="flex items-start gap-3 bg-green-50 border border-green-100 rounded-xl p-4 mb-6">
-            <div className="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">M</div>
+          {/* Panel header */}
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-extrabold text-gray-900">Book Your Free Estimate</h2>
+              <p className="text-gray-500 text-xs mt-0.5">No credit card. No obligation — ever.</p>
+            </div>
+            <span className="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">2 min</span>
+          </div>
+
+          {/* Social proof */}
+          <div className="flex items-start gap-3 bg-green-50 border border-green-100 rounded-xl p-3 mb-5">
+            <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">M</div>
             <div>
               <p className="text-xs text-green-800 leading-relaxed">&ldquo;Showed up in 2 hours and cleared our whole garage. Price was exactly what they quoted.&rdquo;</p>
-              <p className="text-[10px] text-green-700 font-bold mt-1.5">★★★★★ Maria R. — Miami, FL</p>
+              <p className="text-[10px] text-green-700 font-bold mt-1">★★★★★ Maria R. — Miami, FL</p>
             </div>
           </div>
 
-          <LeadForm />
+          <BookingWizard />
 
           <p className="text-center text-xs text-gray-400 mt-4">
             Prefer to call?{" "}
@@ -137,8 +144,8 @@ export default function HomepageTemplate() {
             Same-Day · Miami &amp; Broward
           </div>
           <h1 className="text-4xl font-black text-white leading-none tracking-tight mb-4">
-            Junk Gone.<br />
-            <span className="text-green-400">Today.</span>
+            Just Point.<br />
+            <span className="text-green-400">We Haul It All.</span>
           </h1>
           <div className="flex items-center gap-2">
             <span className="text-yellow-400 text-base tracking-wide">★★★★★</span>
@@ -169,21 +176,26 @@ export default function HomepageTemplate() {
               </div>
             </div>
 
-            {/* Form area */}
+            {/* Wizard area */}
             <div className="p-5">
-              <h2 className="text-lg font-extrabold text-gray-900 mb-0.5">Get Your Free Quote</h2>
-              <p className="text-gray-500 text-xs mb-4">We respond within 15 min — no obligation.</p>
-
-              {/* Mini customer quote */}
-              <div className="flex items-start gap-3 bg-green-50 border border-green-100 rounded-xl p-3 mb-4">
-                <div className="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">M</div>
+              <div className="flex items-center justify-between mb-3">
                 <div>
-                  <p className="text-xs text-green-800 leading-relaxed">&ldquo;Showed up in 2 hours. Price was exactly as quoted.&rdquo;</p>
-                  <p className="text-[10px] text-green-700 font-bold mt-1">★★★★★ Maria R. — Miami, FL</p>
+                  <h2 className="text-base font-extrabold text-gray-900">Book Your Free Estimate</h2>
+                  <p className="text-gray-500 text-[10px] mt-0.5">No credit card. No obligation.</p>
+                </div>
+                <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">2 min</span>
+              </div>
+
+              {/* Mini social proof */}
+              <div className="flex items-start gap-2 bg-green-50 border border-green-100 rounded-xl p-2.5 mb-4">
+                <div className="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-[10px] flex-shrink-0">M</div>
+                <div>
+                  <p className="text-[10px] text-green-800 leading-relaxed">&ldquo;Showed up in 2 hours. Price was exactly as quoted.&rdquo;</p>
+                  <p className="text-[9px] text-green-700 font-bold mt-0.5">★★★★★ Maria R. — Miami, FL</p>
                 </div>
               </div>
 
-              <LeadForm compact />
+              <BookingWizard />
 
               <a
                 href={`tel:${PHONE.replace(/\D/g, "")}`}
@@ -268,9 +280,9 @@ export default function HomepageTemplate() {
       {/* Bottom CTA */}
       <section className="py-16 bg-green-700 text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Get Rid of the Junk Today</h2>
+          <h2 className="text-3xl font-bold mb-4">Ready to Reclaim Your Space?</h2>
           <p className="text-green-100 mb-8 text-lg">
-            Free quotes. Same-day pickups. Upfront pricing. No surprises.
+            Free on-site estimate. Firm price before we start. No credit card, no deposit, no obligation — ever.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
