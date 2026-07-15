@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { SITE_NAME, SITE_URL, PHONE } from "@/lib/constants"
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export default function TermsPage() {
             information you provide, including through automated means, regarding your request.
             Consent to receive marketing calls or texts is not a condition of purchasing any goods or
             services. You may opt out at any time as described in our{" "}
-            <a href="/privacy" className="text-green-600 hover:underline">Privacy Policy</a>.
+            <Link href="/privacy" className="text-green-600 hover:underline">Privacy Policy</Link>.
           </p>
         </section>
 
