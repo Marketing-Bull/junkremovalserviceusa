@@ -9,9 +9,13 @@ export default defineConfig({
     },
   },
   test: {
+    // `globals` enables @testing-library/react's automatic DOM cleanup between
+    // tests (via the global afterEach), preventing component trees from leaking.
+    globals: true,
     // Default to Node for pure data/lib/route tests. Component tests opt into
     // jsdom per-file via `// @vitest-environment jsdom`.
     environment: "node",
+    setupFiles: ["./vitest.setup.ts"],
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
 })
