@@ -15,6 +15,7 @@ import TrustBar from "@/components/TrustBar"
 import { CityIllustration } from "@/components/illustrations/ServiceIllustrations"
 import { City } from "@/data/cities"
 import { services } from "@/data/services"
+import { PHONE } from "@/lib/constants"
 
 const cityFaqs = (city: City) => [
   {
@@ -70,10 +71,10 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
-                  href={`tel:${city.phone.replace(/\D/g, "")}`}
+                  href={`tel:${PHONE.replace(/\D/g, "")}`}
                   className="flex items-center justify-center gap-2 bg-white text-green-800 font-bold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors"
                 >
-                  📞 {city.phone}
+                  📞 {PHONE}
                 </a>
                 <a
                   href="#quote"
@@ -152,10 +153,10 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href={`tel:${city.phone.replace(/\D/g, "")}`}
+              href={`tel:${PHONE.replace(/\D/g, "")}`}
               className="bg-white text-green-800 font-bold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors text-lg"
             >
-              📞 {city.phone}
+              📞 {PHONE}
             </a>
             <a
               href="#quote"

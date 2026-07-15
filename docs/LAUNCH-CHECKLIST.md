@@ -6,10 +6,12 @@ automated jobs cannot complete them.
 
 ## Blockers
 
-- [ ] **Real phone numbers (needs owner).** Every `phone` in `src/data/cities.ts`
-      and the global `PHONE` in `src/lib/constants.ts` are placeholder `555`
-      numbers. Replace with real / CallRail tracking numbers. The nightly
-      maintenance job flags these while they remain.
+- [x] **Real phone number.** The site-wide number `PHONE` in
+      `src/lib/constants.ts` — `(855) 885-5865` — is real and is now used on
+      every page, including city pages (previously they rendered fake per-city
+      `555` numbers). The unused `phone` field still on each `City` in
+      `src/data/cities.ts` is now dead data; only replace with per-market
+      tracking numbers if/when local numbers are desired.
 - [ ] **Lead integration env vars in Vercel (needs owner).** Set so the booking
       form actually emails + creates CRM contacts (see `src/app/api/leads/route.ts`):
   - `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_TO`
