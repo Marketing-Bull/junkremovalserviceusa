@@ -61,6 +61,21 @@ describe("POST /api/leads", () => {
     expect(arg.subject).toContain("Miami")
   })
 
+  it("defaults RESEND_TO to a single-address array when unset", async () => {
+    process.env.RESEND_API_KEY = "re_test"
+    await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
+    const arg = sendMock.mock.calls[0][0]
+    expect(arg.to).toEqual(["alex@getmarketingbull.com"])
+  })
+
+  it("splits a comma-separated RESEND_TO into multiple recipients", async () => {
+    process.env.RESEND_API_KEY = "re_test"
+    process.env.RESEND_TO = "alex@getmarketingbull.com, leads-archive@getmarketingbull.com"
+    await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
+    const arg = sendMock.mock.calls[0][0]
+    expect(arg.to).toEqual(["alex@getmarketingbull.com", "leads-archive@getmarketingbull.com"])
+  })
+
   it("uses the GHL v2 endpoint + Version header when a location ID is set", async () => {
     process.env.GHL_API_KEY = "ghl_test"
     process.env.GHL_LOCATION_ID = "loc_1"
