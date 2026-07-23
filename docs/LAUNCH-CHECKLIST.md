@@ -12,15 +12,21 @@ automated jobs cannot complete them.
       `555` numbers). The unused `phone` field still on each `City` in
       `src/data/cities.ts` is now dead data; only replace with per-market
       tracking numbers if/when local numbers are desired.
-- [ ] **Resend env vars in Vercel (needs owner).** Resend is the sole active
-      lead channel — set so the booking form actually emails leads
-      (see `src/app/api/leads/route.ts`):
+- [ ] **Env vars in Vercel (needs owner).** Nothing below is set yet:
   - `RESEND_API_KEY` — from the Resend dashboard (Domain must be verified there
     before `RESEND_FROM` can send from it)
   - `RESEND_FROM` — verified sender address
   - `RESEND_TO` — one or more comma-separated recipient addresses
+  - `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` — Places API key; without it the booking
+    form's city-autocomplete field has no suggestions (`src/components/PlacesAutocomplete.tsx`)
+
+  Resend is the sole active lead channel (see `src/app/api/leads/route.ts`) — without
+  its three vars, leads submit successfully in the visitor's eyes but nothing is sent
+  or recorded anywhere.
 - [x] **Merge PR #5** — Florida expansion + CI + tests. Merged (squash) via PR #8.
-- [ ] **Decide on PR #4** — security headers (open draft).
+- [x] **PR #4 — security headers.** Merged. `next.config.ts` sends X-Frame-Options,
+      X-Content-Type-Options, Referrer-Policy, HSTS, Permissions-Policy, and a
+      CSP scoped to allow Google Maps.
 
 ### GoHighLevel — dormant, deferred
 
@@ -43,10 +49,12 @@ you can label and search in Gmail), add a second address to `RESEND_TO`
 
 ## Nice-to-have before launch
 
-- [ ] `SITE_URL` in `src/lib/constants.ts` points to the `.vercel.app` domain —
-      update to the production custom domain once assigned (also fixes canonical
-      URLs and OG image `metadataBase`).
-- [ ] Confirm Google Maps Places API key/billing for the booking form autocomplete.
+- [x] **`SITE_URL` now points at the real custom domain**, `https://junkremovalserviceusa.com`
+      (was the `.vercel.app` default). This also fixes canonical URLs, the sitemap,
+      and the OG/Twitter image `metadataBase`. The Vercel project already has both
+      `junkremovalserviceusa.com` and `www.junkremovalserviceusa.com` attached — worth
+      confirming in **Vercel → Domains** which one is set as the redirect target (i.e.
+      that the other one 301s to it) so there's a single canonical URL.
 
 ## Automated coverage already in place
 
