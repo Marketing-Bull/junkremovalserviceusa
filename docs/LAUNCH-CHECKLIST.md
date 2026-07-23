@@ -12,12 +12,34 @@ automated jobs cannot complete them.
       `555` numbers). The unused `phone` field still on each `City` in
       `src/data/cities.ts` is now dead data; only replace with per-market
       tracking numbers if/when local numbers are desired.
-- [ ] **Lead integration env vars in Vercel (needs owner).** Set so the booking
-      form actually emails + creates CRM contacts (see `src/app/api/leads/route.ts`):
-  - `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_TO`
-  - `GHL_API_KEY`, and `GHL_LOCATION_ID` (v2) — omit the location ID to use the v1 agency API
-- [ ] **Merge PR #5** — Florida expansion (50 cities) + CI + tests. Review then merge.
+- [ ] **Resend env vars in Vercel (needs owner).** Resend is the sole active
+      lead channel — set so the booking form actually emails leads
+      (see `src/app/api/leads/route.ts`):
+  - `RESEND_API_KEY` — from the Resend dashboard (Domain must be verified there
+    before `RESEND_FROM` can send from it)
+  - `RESEND_FROM` — verified sender address
+  - `RESEND_TO` — one or more comma-separated recipient addresses
+- [x] **Merge PR #5** — Florida expansion + CI + tests. Merged (squash) via PR #8.
 - [ ] **Decide on PR #4** — security headers (open draft).
+
+### GoHighLevel — dormant, deferred
+
+CRM sync (`sendToGHL` in `src/app/api/leads/route.ts`) is intentionally **not**
+part of the launch path. It's a no-op unless `GHL_API_KEY` is set — nothing to
+configure, nothing breaks by leaving it unset. Revisit only when CRM sync
+becomes a priority.
+
+### Lead audit trail
+
+No separate leads database exists (or is planned) — the audit trail is the
+**Resend dashboard → Emails log** (resend.com/emails). Every submission sends
+a formatted email containing all lead fields (name, phone, city, service,
+details, timestamp), so the log is a searchable, timestamped record of every
+lead once `RESEND_API_KEY` is set — no extra setup required.
+
+For a persistent/filterable archive outside Resend (e.g. a dedicated mailbox
+you can label and search in Gmail), add a second address to `RESEND_TO`
+(comma-separated) — e.g. `alex@getmarketingbull.com, leads-archive@getmarketingbull.com`.
 
 ## Nice-to-have before launch
 
@@ -29,8 +51,8 @@ automated jobs cannot complete them.
 ## Automated coverage already in place
 
 - **CI** (`.github/workflows/ci.yml`): lint → tests → build → typecheck on every PR.
-- **Tests** (Vitest, 26): data integrity, `/api/leads` route, and the `LeadForm`
-  + `BookingWizard` lead funnels.
+- **Tests** (Vitest, 28): data integrity, `/api/leads` route (including
+  multi-recipient `RESEND_TO`), and the `LeadForm` + `BookingWizard` lead funnels.
 - **Nightly maintenance Routine** (daily 08:00 UTC): runs the check chain,
   `/code-review` on recent commits, and opens a draft PR with any safe fixes.
 - **CodeRabbit** + **Vercel preview** on every PR.
