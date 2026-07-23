@@ -15,7 +15,7 @@ let configured = false
 function loadPlaces(): Promise<google.maps.PlacesLibrary> {
   if (!configured) {
     setOptions({
-      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
+      key: process.env.NEXT_PUBLIC_JUNK_GOOGLE_MAPS_API_KEY ?? "",
       v: "weekly",
     })
     configured = true
@@ -28,7 +28,7 @@ export default function PlacesAutocomplete({ value, onChange, placeholder, class
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null)
 
   useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    const apiKey = process.env.NEXT_PUBLIC_JUNK_GOOGLE_MAPS_API_KEY
     if (!apiKey || !inputRef.current) return
 
     loadPlaces().then(({ Autocomplete }) => {

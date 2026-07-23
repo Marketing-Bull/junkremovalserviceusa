@@ -18,7 +18,7 @@ function req(body: unknown, { raw = false } = {}) {
   } as unknown as import("next/server").NextRequest
 }
 
-const LEAD_ENV = ["RESEND_API_KEY", "RESEND_FROM", "RESEND_TO", "GHL_API_KEY", "GHL_LOCATION_ID"]
+const LEAD_ENV = ["JUNK_RESEND_API_KEY", "JUNK_RESEND_FROM", "JUNK_RESEND_TO", "JUNK_GHL_API_KEY", "JUNK_GHL_LOCATION_ID"]
 
 describe("POST /api/leads", () => {
   beforeEach(() => {
@@ -51,8 +51,8 @@ describe("POST /api/leads", () => {
     expect(fetch).not.toHaveBeenCalled()
   })
 
-  it("sends a Resend email when RESEND_API_KEY is set", async () => {
-    process.env.RESEND_API_KEY = "re_test"
+  it("sends a Resend email when JUNK_RESEND_API_KEY is set", async () => {
+    process.env.JUNK_RESEND_API_KEY = "re_test"
     const res = await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
     expect(res.status).toBe(200)
     expect(sendMock).toHaveBeenCalledTimes(1)
@@ -61,24 +61,24 @@ describe("POST /api/leads", () => {
     expect(arg.subject).toContain("Miami")
   })
 
-  it("defaults RESEND_TO to a single-address array when unset", async () => {
-    process.env.RESEND_API_KEY = "re_test"
+  it("defaults JUNK_RESEND_TO to a single-address array when unset", async () => {
+    process.env.JUNK_RESEND_API_KEY = "re_test"
     await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
     const arg = sendMock.mock.calls[0][0]
     expect(arg.to).toEqual(["alex@getmarketingbull.com"])
   })
 
-  it("splits a comma-separated RESEND_TO into multiple recipients", async () => {
-    process.env.RESEND_API_KEY = "re_test"
-    process.env.RESEND_TO = "alex@getmarketingbull.com, leads-archive@getmarketingbull.com"
+  it("splits a comma-separated JUNK_RESEND_TO into multiple recipients", async () => {
+    process.env.JUNK_RESEND_API_KEY = "re_test"
+    process.env.JUNK_RESEND_TO = "alex@getmarketingbull.com, leads-archive@getmarketingbull.com"
     await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
     const arg = sendMock.mock.calls[0][0]
     expect(arg.to).toEqual(["alex@getmarketingbull.com", "leads-archive@getmarketingbull.com"])
   })
 
   it("uses the GHL v2 endpoint + Version header when a location ID is set", async () => {
-    process.env.GHL_API_KEY = "ghl_test"
-    process.env.GHL_LOCATION_ID = "loc_1"
+    process.env.JUNK_GHL_API_KEY = "ghl_test"
+    process.env.JUNK_GHL_LOCATION_ID = "loc_1"
     await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
     expect(fetch).toHaveBeenCalledTimes(1)
     const [url, init] = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls[0]
@@ -88,14 +88,14 @@ describe("POST /api/leads", () => {
   })
 
   it("falls back to the GHL v1 endpoint when no location ID is set", async () => {
-    process.env.GHL_API_KEY = "ghl_test"
+    process.env.JUNK_GHL_API_KEY = "ghl_test"
     await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
     const [url] = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls[0]
     expect(url).toContain("rest.gohighlevel.com/v1/contacts")
   })
 
   it("still returns 200 when an integration throws (Promise.allSettled)", async () => {
-    process.env.GHL_API_KEY = "ghl_test"
+    process.env.JUNK_GHL_API_KEY = "ghl_test"
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network down")))
     const res = await POST(req({ name: "Jane Doe", phone: "3055550100", city: "Miami" }))
     expect(res.status).toBe(200)
@@ -103,7 +103,7 @@ describe("POST /api/leads", () => {
   })
 
   it("splits the name into GHL first/last correctly", async () => {
-    process.env.GHL_API_KEY = "ghl_test"
+    process.env.JUNK_GHL_API_KEY = "ghl_test"
     await POST(req({ name: "Mary Jane Watson", phone: "3055550100", city: "Miami" }))
     const [, init] = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls[0]
     const contact = JSON.parse(init.body)

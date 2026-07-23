@@ -12,13 +12,19 @@ automated jobs cannot complete them.
       `555` numbers). The unused `phone` field still on each `City` in
       `src/data/cities.ts` is now dead data; only replace with per-market
       tracking numbers if/when local numbers are desired.
-- [ ] **Env vars in Vercel (needs owner).** Nothing below is set yet:
-  - `RESEND_API_KEY` — from the Resend dashboard (Domain must be verified there
-    before `RESEND_FROM` can send from it)
-  - `RESEND_FROM` — verified sender address
-  - `RESEND_TO` — one or more comma-separated recipient addresses
-  - `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` — Places API key; without it the booking
-    form's city-autocomplete field has no suggestions (`src/components/PlacesAutocomplete.tsx`)
+- [ ] **Env vars in Vercel (needs owner).** All env vars for this project are
+      prefixed `JUNK_` (agency convention — multiple client sites share the
+      same Vercel team/Supabase org, the prefix keeps each project's vars
+      unambiguous). Nothing below is set yet:
+  - `JUNK_RESEND_API_KEY` — from the Resend dashboard (Domain must be verified
+    there before `JUNK_RESEND_FROM` can send from it)
+  - `JUNK_RESEND_FROM` — verified sender address
+  - `JUNK_RESEND_TO` — one or more comma-separated recipient addresses
+  - `NEXT_PUBLIC_JUNK_GOOGLE_MAPS_API_KEY` — Places API key; without it the
+    booking form's city-autocomplete field has no suggestions
+    (`src/components/PlacesAutocomplete.tsx`). Note `NEXT_PUBLIC_` must stay the
+    literal prefix — Next.js requires that exact string to expose a var to the
+    browser bundle, so `JUNK_` is inserted after it, not before.
 
   Resend is the sole active lead channel (see `src/app/api/leads/route.ts`) — without
   its three vars, leads submit successfully in the visitor's eyes but nothing is sent
@@ -31,21 +37,27 @@ automated jobs cannot complete them.
 ### GoHighLevel — dormant, deferred
 
 CRM sync (`sendToGHL` in `src/app/api/leads/route.ts`) is intentionally **not**
-part of the launch path. It's a no-op unless `GHL_API_KEY` is set — nothing to
-configure, nothing breaks by leaving it unset. Revisit only when CRM sync
-becomes a priority.
+part of the launch path. It's a no-op unless `JUNK_GHL_API_KEY` is set —
+nothing to configure, nothing breaks by leaving it unset. Revisit only when
+CRM sync becomes a priority.
 
-### Lead audit trail
+### Lead storage / audit trail
 
-No separate leads database exists (or is planned) — the audit trail is the
-**Resend dashboard → Emails log** (resend.com/emails). Every submission sends
-a formatted email containing all lead fields (name, phone, city, service,
-details, timestamp), so the log is a searchable, timestamped record of every
-lead once `RESEND_API_KEY` is set — no extra setup required.
+**Known gap:** today, if Resend fails *after* being configured (bad domain
+verification, outage, rate limit), the API route still returns success — the
+visitor sees the confirmation screen and the lead is lost with no record
+anywhere (only a `console.error` in Vercel's function logs, which nobody is
+alerted to). `Promise.allSettled` in `POST` correctly stops one integration's
+failure from breaking the response, but nothing currently guarantees the lead
+data itself survives a failure.
 
-For a persistent/filterable archive outside Resend (e.g. a dedicated mailbox
-you can label and search in Gmail), add a second address to `RESEND_TO`
-(comma-separated) — e.g. `alex@getmarketingbull.com, leads-archive@getmarketingbull.com`.
+**Planned fix (pending sign-off before touching shared infra):** persist every
+lead to Postgres independent of Resend's outcome, using the agency's existing
+shared Supabase project (`MarketingBull-Master-DB`) rather than provisioning
+new infrastructure — add a `junk_leads` table and insert into it as a third,
+always-run step in `POST` (not gated behind the other integrations' success).
+This closes the data-loss gap and also gives a proper filterable/exportable
+audit view (Supabase's Table Editor) beyond Resend's email log.
 
 ## Nice-to-have before launch
 
@@ -60,7 +72,7 @@ you can label and search in Gmail), add a second address to `RESEND_TO`
 
 - **CI** (`.github/workflows/ci.yml`): lint → tests → build → typecheck on every PR.
 - **Tests** (Vitest, 28): data integrity, `/api/leads` route (including
-  multi-recipient `RESEND_TO`), and the `LeadForm` + `BookingWizard` lead funnels.
+  multi-recipient `JUNK_RESEND_TO`), and the `LeadForm` + `BookingWizard` lead funnels.
 - **Nightly maintenance Routine** (daily 08:00 UTC): runs the check chain,
   `/code-review` on recent commits, and opens a draft PR with any safe fixes.
 - **CodeRabbit** + **Vercel preview** on every PR.

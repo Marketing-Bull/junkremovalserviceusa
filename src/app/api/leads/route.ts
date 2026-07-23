@@ -10,14 +10,14 @@ interface LeadPayload {
 }
 
 async function sendResendEmail(body: LeadPayload) {
-  const apiKey = process.env.RESEND_API_KEY
+  const apiKey = process.env.JUNK_RESEND_API_KEY
   if (!apiKey) return
 
   const resend = new Resend(apiKey)
-  const from = process.env.RESEND_FROM ?? "leads@junkremovalserviceusa.com"
-  // RESEND_TO accepts one or more comma-separated addresses, e.g.
+  const from = process.env.JUNK_RESEND_FROM ?? "leads@junkremovalserviceusa.com"
+  // JUNK_RESEND_TO accepts one or more comma-separated addresses, e.g.
   // "alex@getmarketingbull.com, leads-archive@getmarketingbull.com"
-  const to = (process.env.RESEND_TO ?? "alex@getmarketingbull.com")
+  const to = (process.env.JUNK_RESEND_TO ?? "alex@getmarketingbull.com")
     .split(",")
     .map((addr) => addr.trim())
     .filter(Boolean)
@@ -42,13 +42,13 @@ async function sendResendEmail(body: LeadPayload) {
 }
 
 // Dormant by design: GoHighLevel CRM sync is not in use yet. This stays a
-// no-op — and the lead is unaffected — unless/until GHL_API_KEY is set.
+// no-op — and the lead is unaffected — unless/until JUNK_GHL_API_KEY is set.
 // Resend (sendResendEmail above) is the sole active lead channel for now.
 async function sendToGHL(body: LeadPayload) {
-  const apiKey = process.env.GHL_API_KEY
+  const apiKey = process.env.JUNK_GHL_API_KEY
   if (!apiKey) return
 
-  const locationId = process.env.GHL_LOCATION_ID
+  const locationId = process.env.JUNK_GHL_LOCATION_ID
   const [firstName, ...rest] = body.name.trim().split(" ")
   const lastName = rest.join(" ")
 
